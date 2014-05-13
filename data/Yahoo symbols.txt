@@ -1,0 +1,13 @@
+
+ http://www.google.com/finance/getprices?i=60&p=10d&f=d,o,h,l,c,v&df=cpct&q=INDEXSP
+ 
+ http://chartapi.finance.yahoo.com/instrument/1.0/^GSPC/chartdata;type=quote;range=1d/csv
+ 
+ Yahoo symbols
+ NASDAQ - ^IXIC
+ SP 500 - ^GSPC
+ SP 100 - ^OEX
+ Banking - ^BKX
+ Semi - ^SOX
+ Nas 100 - ^NDX
+ 
