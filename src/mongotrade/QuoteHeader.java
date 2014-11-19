@@ -27,7 +27,7 @@ public class QuoteHeader {
     public long getEntries(){ return this.entries;}
 
     public void setVolume(long volume){
-    	this.volume = volume;
+    	this.volume = this.volume + volume;
     }
     public String getVolume() {
     	return String.valueOf(volume);
@@ -104,7 +104,7 @@ public class QuoteHeader {
     }
     public void setTicker(String ticker) {
 
-        this.ticker = ticker.replaceAll("[^A-Za-z0-9]+", ""); //we only want letters;
+        this.ticker = ticker;
     }
     public String getUri() {
     	return uri;

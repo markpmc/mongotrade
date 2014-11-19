@@ -65,6 +65,8 @@ public class MongoLayer {
             return;
         }
 
+        System.out.println("Bodylist=" + bodyList.size());
+
         //connect to mongo
         mongo = new MongoClient("localhost", 27017);
         DB db = mongo.getDB("quotes");

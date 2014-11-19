@@ -15,24 +15,31 @@ import javax.net.ssl.HttpsURLConnection;
  
 public class YData {
 	private final String USER_AGENT = "Mozilla/5.0";
-	
+    static YData http = new YData();
+
 	public static void main(String[] args) throws Exception {
-		YData http = new YData();
-
         String symbol = "^gspc";
-		String url1 = "http://chartapi.finance.yahoo.com/instrument/1.0/";
-        String url2 = "/chartdata;type=quote;range=10d/csv";
+        http.fetchData(symbol);
 
-        String url = url1 + URLEncoder.encode(symbol) + url2;
 
-		System.out.println("Testing 1 - Send Http GET request");
-		StringBuffer result = http.sendGet(url);
- 
-		//System.out.println("result=" + result);
-		
-		http.process_yahoo_csv(result);
 	} //end main
-	
+
+        public void fetchData(String ticker) throws Exception {
+
+            String url1 = "http://chartapi.finance.yahoo.com/instrument/1.0/";
+            String url2 = "/chartdata;type=quote;range=1d/csv";
+
+            String url = url1 + URLEncoder.encode(ticker) + url2;
+
+            System.out.println("Testing 1 - Send Http GET request");
+            StringBuffer result = http.sendGet(url);
+
+            //System.out.println("result=" + result);
+
+            http.process_yahoo_csv(result);
+
+        } //end fetchData
+
 	// HTTP GET request
 		private StringBuffer sendGet(String url) throws Exception {
 	 
@@ -84,6 +91,7 @@ public class YData {
             //split into array
             String[] d_array = data.split("\\n",-1);
 
+            int ictr = 0;
 
             //start processing
             for(String line : d_array){
@@ -109,6 +117,8 @@ public class YData {
                     //load it into the body data structure
                     String[] section = line.split(",", -1);
                     if (line.length() > 6) {  //empty line check
+                        ictr++;
+                        //System.out.println("Body ct= " + ictr);
                         //check for multi-days in data
                         String day = ymutil.unix2day(Long.parseLong(section[0]));
                         if(!day.equals(s_curDay)){
@@ -117,6 +127,7 @@ public class YData {
                             System.out.println("Changing day: " + s_curDay);
                             try {
                                 //  ml.connect(qheader.getTicker());
+                                System.out.println("Calling mongo_store= " + ictr);
                                 ml.mongo_store(qheader,bodyList);
                             } catch (UnknownHostException e) {
                                 e.printStackTrace();
