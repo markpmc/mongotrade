@@ -3,28 +3,27 @@ package mongotrade;
 /**
  * Created by mark.mcclellan on 10/6/2014.
  */
-import com.mongodb.*;
-import org.bson.types.ObjectId;
 
-import java.util.ArrayList;
+import com.mongodb.*;
 
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class MongoLayer {
+public class MongoLayer2 {
     static MongoClient mongo = null;
     static DBCollection collection = null;
   //static QuoteHeader qheader = new QuoteHeader();
  //   static QuoteBody qbody = new QuoteBody();
     static String s_curDay = "";
 
-    public MongoLayer() {
+    public MongoLayer2() {
 
     }
 
     public static void main(String[] args) throws UnknownHostException {
-        MongoLayer mgr;
-        mgr = new MongoLayer();
+        MongoLayer2 mgr;
+        mgr = new MongoLayer2();
 
         mgr.connect("^spc");
 
@@ -77,7 +76,6 @@ public class MongoLayer {
         DBObject              dbo;
         ArrayList< DBObject > array = new ArrayList< DBObject >();
         String day = new String();
-        DBObject push_data = null;
 
         for (String line : bodyList) {
             String[] section = line.split(",", -1);
@@ -108,16 +106,38 @@ public class MongoLayer {
                 dB.put("Source", header.getSource());
                 dB.put("Entries", header.getEntries());
 
+                //upsert - update or insert
+                BasicDBObject searchQ = new BasicDBObject();
+                searchQ.put("Day", day);
+                searchQ.put("symbol", header.getTicker());
+                collection.update(searchQ, dB, true, false);
+
+                //Work on pushing the detail data to the array
+                body.generateId();
+
+
+                dbo = body.bsonFromPojo();
+                array.add( dbo );
+               // dB.put("minutes", array);
+                //dB.put("$push", new BasicDBObject( "minutes", array ));
+
+
+
+
+
+
+
+
+                //QuoteBody qb = new QuoteBody();
                 //add the row of bar data
-                array.add(new BasicDBObject("time", body.getTimestamp()));
-                array.add(new BasicDBObject("open", body.getOpen()));
-                array.add(new BasicDBObject("high", body.getHigh()));
-                array.add(new BasicDBObject("low", body.getLow()));
-                array.add(new BasicDBObject("close", body.getClose()));
-                array.add(new BasicDBObject("volume", body.getVolume()));
-                dB.put("minutes", array);
-               // dB.put("$push", new BasicDBObject("minutes",array) );
-               // push_data = new BasicDBObject("$push", new BasicDBObject("minutes", array));
+                //array.add(new BasicDBObject("time", body.getTimestamp()));
+                //array.add(new BasicDBObject("open", body.getOpen()));
+                //array.add(new BasicDBObject("high", body.getHigh()));
+                //array.add(new BasicDBObject("low", body.getLow()));
+                //array.add(new BasicDBObject("close", body.getClose()));
+                //array.add(new BasicDBObject("volume", body.getVolume()));
+                //dB.put("minutes", array);
+
 
             } //end length check
         } //end for bodyList
@@ -129,16 +149,19 @@ public class MongoLayer {
         BasicDBObject searchQ = new BasicDBObject();
         searchQ.put("Day", day);
         searchQ.put("symbol", header.getTicker());
-
+/*
         //collection.update(searchQ, push_data);
        collection.update(searchQ, dB, true, false);
-
+*/
+        BasicDBObject update = new BasicDBObject();
+        update.put( "$push", new BasicDBObject( "minutes", array ) );
+        collection.update( searchQ, update, true, false );
 
         //let see what we have
         DBCursor tcursor = collection.find();
         int i=1;
         while (tcursor.hasNext()) {
-            System.out.println("Inserted Document: "+i);
+            System.out.println("ML2 Inserted Document: "+i);
             System.out.println(tcursor.next());
             i++;
         }

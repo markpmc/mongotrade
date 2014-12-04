@@ -81,7 +81,7 @@ public class YData {
 	        QuoteHeader qheader = new QuoteHeader();
 	        QuoteBody qbody = new QuoteBody(); 
 	        YMUtils ymutil = new YMUtils();
-            MongoLayer ml = new MongoLayer();
+            MongoLayer2 ml = new MongoLayer2();
             List<String> bodyList = new ArrayList<String>(); // or LinkedList<String>();
 
 	       //process the csv file begining with the header
@@ -107,9 +107,9 @@ public class YData {
                         qheader.setTicker(section[1].toString());
                     }else if(section[0].equals("Company-Name")){
                         qheader.setTickerName(section[1].toString());
-                    }else if(section[0].equals("Exchange-Name")){
-                        qheader.setExchange(section[1].toString());
-                    } //end load header info
+                    }
+                        qheader.setSource("yahoo");
+                    //end load header info
 
 
                 } else{ //process body

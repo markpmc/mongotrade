@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import com.mongodb.*;
@@ -13,12 +14,16 @@ import com.mongodb.*;
  */
 public class GetConfig {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnknownHostException {
 
         GetConfig config = new GetConfig();
-        YData http = new YData();
+        YData yhttp = new YData();
+        GData ghttp = new GData();
 
-        try{
+        String[] symbols = null;
+        String[] sources = null;
+
+
         /**** Connect to MongoDB ****/
         MongoClient mongo = new MongoClient("localhost", 27017);
 
@@ -31,67 +36,74 @@ public class GetConfig {
         DBCollection coll = db.getCollection("symbols");
 
         //query for a list of symbols
-            /**** Find and display ****/
-            //BasicDBObject searchQuery2
-            //        = new BasicDBObject().append("name", "mkyong-updated");
 
             DBCursor cursor2 = coll.find();
 
             if(cursor2.count() == 0) {
                 System.out.println("it's blank jim");
                 //Nothing setup, put a few symbols in
-                config.addSymbol(coll,"^GSPC");
-                config.addSymbol(coll,"^DJI");
-                config.addSymbol(coll,"^IXIC");
+                config.addSymbol(coll,"^GSPC","yahoo");
+                config.addSymbol(coll,"^DJI","yahoo");
+                config.addSymbol(coll,"^IXIC","yahoo");
+                config.addSymbol(coll,".INX","google");
+                config.addSymbol(coll,".DJI","google");
+                config.addSymbol(coll,".IXIC","google");
 
                 //let see what we have
-                DBCursor tcursor = coll.find();
+            /*    DBCursor tcursor = coll.find();
                 int i=1;
                 while (tcursor.hasNext()) {
                     System.out.println("Inserted Document: "+i);
                     System.out.println(tcursor.next());
                     i++;
                 }
-
+            */
             }
 
+            DBCursor curssc = coll.find();
+            while(curssc.hasNext()) {
 
-            //get the list of symbols
-           BasicDBList e = (BasicDBList) cursor2.next().get("Symbols");
+                DBObject e = curssc.next();
+                System.out.println(e.get("Symbols")) ;
+                System.out.println(e.get("Source")) ;
+                BasicDBList symList = (BasicDBList) e.get("Symbols");
+                BasicDBList srcList = (BasicDBList) e.get("Source");
 
-            Object[] symList = e.toArray();
-            for(Object str : symList){
-               // System.out.println(str);
-                try {
-                    http.fetchData(str.toString());
-                } catch (Exception e1) {
-                    e1.printStackTrace();
+                System.out.println(symList);
+
+                symbols = symList.toArray(new String[0]);
+                sources = srcList.toArray(new String[0]);
+            }
+
+        int ctr=0;
+
+        for(Object str : symbols) {
+            System.out.println(str);
+            try {
+                if (sources[ctr].toString().equals("yahoo")) {
+                    yhttp.fetchData(str.toString());
+                } else if (sources[ctr].toString().equals("google")) {
+                    ghttp.fetchDataG(str.toString());
                 }
+            } catch (Exception e1) {
+                e1.printStackTrace();
             }
+            ctr++;
+        } //end for
 
 
-
-
-            /**** Done ****/
-            System.out.println("Done");
-
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (MongoException e) {
-            e.printStackTrace();
-        }
 
 
     } //end main
 
-    public void addSymbol(DBCollection collection,String ticker){
+    public void addSymbol(DBCollection collection,String ticker,String source){
         //construct basic config document
         BasicDBObject searchQ = new BasicDBObject();
         searchQ.put("name", "default");
 
         //add the ticker symbol to the Symbols list
         DBObject modifiedObject =new BasicDBObject();
-        modifiedObject.put("$push", new BasicDBObject().append("Symbols", ticker));
+        modifiedObject.put("$push", new BasicDBObject().append("Symbols", ticker).append("Source",source));
         collection.update(searchQ, modifiedObject,true,false);
 
 

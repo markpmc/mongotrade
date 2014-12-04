@@ -15,7 +15,7 @@ public class QuoteHeader {
     private String uri;
 	private String ticker;
     private String tickername;
-    private String exchange;
+    private String source;
     private String tz;
     private String currency;
     private String unit;
@@ -75,11 +75,11 @@ public class QuoteHeader {
     public void setUnit(String unit) {
         this.unit = unit;
     }
-    public String getExchange() {
-        return exchange;
+    public String getSource() {
+        return source;
     }
-    public void setExchange(String exchange) {
-        this.exchange = exchange;
+    public void setSource(String source) {
+        this.source = source;
     }
     public String getCurrency() {
         return currency;
