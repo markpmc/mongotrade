@@ -154,7 +154,19 @@ public class MongoLayer2 {
        collection.update(searchQ, dB, true, false);
 */
         BasicDBObject update = new BasicDBObject();
-        update.put( "$push", new BasicDBObject( "minutes", array ) );
+        //update.put( "$push", new BasicDBObject( "minutes", array ) );
+        //update the header
+        update.put("symbol", header.getTicker());
+        update.put("Day", day);
+        update.put("Open", header.getOpen());
+        update.put("High", header.getHigh());
+        update.put("Low", header.getLow());
+        update.put("Close", header.getClose());
+        update.put("Volume", header.getVolume());
+        update.put("Source", header.getSource());
+        update.put("Entries", header.getEntries());
+        update.append("minutes",array);
+        //update.put("minutes",array);
         collection.update( searchQ, update, true, false );
 
         //let see what we have

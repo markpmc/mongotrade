@@ -22,6 +22,7 @@ import static com.sun.deploy.util.StringUtils.*;
 public class GData {
     private final String USER_AGENT = "Mozilla/5.0";
     static GData http = new GData();
+    List<String> bodyList = new ArrayList<String>(); // or LinkedList<String>();
 
     public static void main(String[] args) throws Exception {
         String symbol = ".INX";
@@ -35,7 +36,7 @@ public class GData {
         String url1 =  "http://www.google.com/finance/getprices?i=60&p=10d&f=d,o,h,l,c,v&df=cpct&q=";
 
 
-        String url = url1 + URLEncoder.encode(ticker);
+        String url = url1 + URLEncoder.encode(ticker,"UTF-8");
 
         System.out.println("Testing 1 - Send Http GET request");
         StringBuffer result = http.sendGet(url);
@@ -88,7 +89,7 @@ public class GData {
         QuoteBody qbody = new QuoteBody();
         YMUtils ymutil = new YMUtils();
         MongoLayer2 ml = new MongoLayer2();
-        List<String> bodyList = new ArrayList<String>(); // or LinkedList<String>();
+
         String workingDayTime = "";
 
         //process the csv file begining with the header
@@ -137,14 +138,17 @@ public class GData {
                         //init for new data.
                         qheader.initDay(); //init the header for new day
                         bodyList.clear();
+
                         ictr=0;
 
                         workingDayTime = uDateStamp.substring(1);
                         tchlov[0] = workingDayTime;
-                        System.out.println("time=" + workingDayTime);
+                       // System.out.println("time=" + workingDayTime);
                         String day = get_gday(workingDayTime);
-                        System.out.println(day);
+                       // System.out.println(day);
                         qheader.setDay(day);
+                        line = ymutil.implodeArray(tchlov,",");
+                        bodyList.add(line);
 
                     } else {
                     //not a new day. correct timestamp and add to array
@@ -166,7 +170,8 @@ public class GData {
 
         //process the final day that didn't get stored by changing day
         if(bodyList.size()>0) {
-            System.out.println("Storing final Day " + qheader.getDay() + " " + ictr);
+           //
+           // System.out.println("Storing final Day " + qheader.getDay() + " " + ictr);
             try {
 
                 ml.mongo_store(qheader, bodyList);
@@ -180,6 +185,19 @@ public class GData {
 
     } //end process y csv
 
+    //Handles the the 2 diff timestamps
+    private void addToBody(String[] data){
+ /*
+        Long curTimestamp = Long.parseLong(workingDayTime) + (60* Long.parseLong(tchlov[0]));
+        //System.out.println("curr=" + curTimestamp);
+
+        String fooDate = ymutil.unixtodate(curTimestamp);
+        //System.out.println("running date " + fooDate);
+        tchlov[0] = curTimestamp.toString();
+        line = ymutil.implodeArray(tchlov,",");
+        bodyList.add(line);
+*/
+    }
     private String get_gday(String uDate) {
         YMUtils ymutil = new YMUtils();
         //it's an 'a' followed by a unix date

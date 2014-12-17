@@ -29,7 +29,7 @@ public class YData {
             String url1 = "http://chartapi.finance.yahoo.com/instrument/1.0/";
             String url2 = "/chartdata;type=quote;range=1d/csv";
 
-            String url = url1 + URLEncoder.encode(ticker) + url2;
+            String url = url1 + URLEncoder.encode(ticker,"UTF-8") + url2;
 
             System.out.println("Testing 1 - Send Http GET request");
             StringBuffer result = http.sendGet(url);

@@ -45,19 +45,20 @@ public class GetConfig {
                 config.addSymbol(coll,"^GSPC","yahoo");
                 config.addSymbol(coll,"^DJI","yahoo");
                 config.addSymbol(coll,"^IXIC","yahoo");
+                config.addSymbol(coll,"^VIX","yahoo");
+                config.addSymbol(coll,"^BKX","yahoo");
+                config.addSymbol(coll,"^SOX","yahoo");
+                config.addSymbol(coll,"^NDX","yahoo");
+                config.addSymbol(coll,"EURUSD=X","yahoo");
+                config.addSymbol(coll,"EURJPY=X","yahoo");
+                config.addSymbol(coll,"GBPUSD=X","yahoo");
                 config.addSymbol(coll,".INX","google");
                 config.addSymbol(coll,".DJI","google");
                 config.addSymbol(coll,".IXIC","google");
+                config.addSymbol(coll,"VIX","google");
+                config.addSymbol(coll,"AXTEN","google");
 
-                //let see what we have
-            /*    DBCursor tcursor = coll.find();
-                int i=1;
-                while (tcursor.hasNext()) {
-                    System.out.println("Inserted Document: "+i);
-                    System.out.println(tcursor.next());
-                    i++;
-                }
-            */
+
             }
 
             DBCursor curssc = coll.find();
@@ -69,7 +70,7 @@ public class GetConfig {
                 BasicDBList symList = (BasicDBList) e.get("Symbols");
                 BasicDBList srcList = (BasicDBList) e.get("Source");
 
-                System.out.println(symList);
+              //  System.out.println(symList);
 
                 symbols = symList.toArray(new String[0]);
                 sources = srcList.toArray(new String[0]);
@@ -78,10 +79,10 @@ public class GetConfig {
         int ctr=0;
 
         for(Object str : symbols) {
-            System.out.println(str);
+          //  System.out.println(str);
             try {
                 if (sources[ctr].toString().equals("yahoo")) {
-                    yhttp.fetchData(str.toString());
+                   yhttp.fetchData(str.toString());
                 } else if (sources[ctr].toString().equals("google")) {
                     ghttp.fetchDataG(str.toString());
                 }
@@ -92,7 +93,15 @@ public class GetConfig {
         } //end for
 
 
-
+ /*       //let see what we have
+        DBCursor tcursor = coll.find();
+        int i=1;
+        while (tcursor.hasNext()) {
+            System.out.println("Inserted Document: "+i);
+            System.out.println(tcursor.next());
+            i++;
+        }
+*/
 
     } //end main
 
