@@ -65,8 +65,8 @@ public class GetConfig {
             while(curssc.hasNext()) {
 
                 DBObject e = curssc.next();
-                System.out.println(e.get("Symbols")) ;
-                System.out.println(e.get("Source")) ;
+               // System.out.println(e.get("Symbols")) ;
+               // System.out.println(e.get("Source")) ;
                 BasicDBList symList = (BasicDBList) e.get("Symbols");
                 BasicDBList srcList = (BasicDBList) e.get("Source");
 

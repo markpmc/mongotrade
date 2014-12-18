@@ -31,7 +31,7 @@ public class YData {
 
             String url = url1 + URLEncoder.encode(ticker,"UTF-8") + url2;
 
-            System.out.println("Testing 1 - Send Http GET request");
+           // System.out.println("Testing 1 - Send Http GET request");
             StringBuffer result = http.sendGet(url);
 
             //System.out.println("result=" + result);
@@ -124,16 +124,16 @@ public class YData {
                         if(!day.equals(s_curDay)){
                             s_curDay = day;
 
-                            System.out.println("Changing day: " + s_curDay);
+                           // System.out.println("Changing day: " + s_curDay);
                             try {
                                 //  ml.connect(qheader.getTicker());
-                                System.out.println("Calling mongo_store= " + ictr);
+                               // System.out.println("Calling mongo_store= " + ictr);
                                 ml.mongo_store(qheader,bodyList);
                             } catch (UnknownHostException e) {
                                 e.printStackTrace();
                             }
 
-                            System.out.println("Cleaning header");
+                           // System.out.println("Cleaning header");
                             qheader.initDay(); //init the header for new day
                             bodyList.clear();
                         }
@@ -160,7 +160,7 @@ public class YData {
             try {
                 //  ml.connect(qheader.getTicker());
                 ml.mongo_store(qheader,bodyList);
-                System.out.println("Cleaning header");
+               // System.out.println("Cleaning header");
                 qheader.initDay(); //init the header for new day
                 bodyList.clear();
             } catch (UnknownHostException e) {

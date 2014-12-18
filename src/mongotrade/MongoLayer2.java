@@ -64,7 +64,7 @@ public class MongoLayer2 {
             return;
         }
 
-        System.out.println("Bodylist=" + bodyList.size());
+       // System.out.println("Bodylist=" + bodyList.size());
 
         //connect to mongo
         mongo = new MongoClient("localhost", 27017);
@@ -170,17 +170,25 @@ public class MongoLayer2 {
         collection.update( searchQ, update, true, false );
 
         //let see what we have
-        DBCursor tcursor = collection.find();
+/*        DBCursor tcursor = collection.find();
         int i=1;
         while (tcursor.hasNext()) {
             System.out.println("ML2 Inserted Document: "+i);
             System.out.println(tcursor.next());
             i++;
         }
+*/
+
+        //what did we update
+        /**** Find and display ****/
+
+        DBCursor cursor2 = collection.find(searchQ);
+
+        while (cursor2.hasNext()) {
+            System.out.println(cursor2.next());
+        }
 
     } //end mongo store
-
-
 
 
 

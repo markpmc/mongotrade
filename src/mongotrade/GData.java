@@ -33,12 +33,16 @@ public class GData {
 
     public void fetchDataG(String ticker) throws Exception {
 
-        String url1 =  "http://www.google.com/finance/getprices?i=60&p=10d&f=d,o,h,l,c,v&df=cpct&q=";
+        //10 day
+        //String url1 =  "http://www.google.com/finance/getprices?i=60&p=10d&f=d,o,h,l,c,v&df=cpct&q=";
+
+        //1 day
+        String url1 =  "http://www.google.com/finance/getprices?i=60&p=1d&f=d,o,h,l,c,v&df=cpct&q=";
 
 
         String url = url1 + URLEncoder.encode(ticker,"UTF-8");
 
-        System.out.println("Testing 1 - Send Http GET request");
+       // System.out.println("Testing 1 - Send Http GET request");
         StringBuffer result = http.sendGet(url);
 
         //System.out.println("google=\n" + result);
@@ -127,8 +131,7 @@ public class GData {
 
                         if(bodyList.size()>1){ //load current data into mongo
                             try {
-
-                                System.out.println("Calling mongo_store= " + ictr);
+                              //  System.out.println("Calling mongo_store= " + ictr);
                                 ml.mongo_store(qheader,bodyList);
                             } catch (UnknownHostException e) {
                                 e.printStackTrace();
