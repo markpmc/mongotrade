@@ -2,9 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d927f5d9-ce6d-49d7-958b-84378c2e728e" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/mongotrade/mongotrade/YData.class" afterPath="$PROJECT_DIR$/out/production/mongotrade/mongotrade/YData.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mongotrade/GetConfig.java" afterPath="$PROJECT_DIR$/src/mongotrade/GetConfig.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mongotrade/MongoLayer2.java" afterPath="$PROJECT_DIR$/src/mongotrade/MongoLayer2.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="mongotrade.iws" />
@@ -33,7 +30,7 @@
       <file leaf-file-name="GetConfig.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mongotrade/GetConfig.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.6893204" vertical-offset="2062" max-vertical-offset="2992">
+            <state vertical-scroll-proportion="0.9388489" vertical-offset="2062" max-vertical-offset="2992">
               <caret line="156" column="8" selection-start-line="156" selection-start-column="8" selection-end-line="156" selection-end-column="8" />
               <folding />
             </state>
@@ -503,12 +500,18 @@
       <option name="project" value="LOCAL" />
       <updated>1418916569142</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Revamped config store. added 'add and remove' symbols">
+      <created>1420820679125</created>
+      <option name="number" value="00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1420820679125</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-14" y="4" width="1382" height="744" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -520,10 +523,10 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14145234" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40293637" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.40293637" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12254161" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.12254161" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24886535" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962178" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -580,7 +583,8 @@
     <MESSAGE value="new file" />
     <MESSAGE value="Data retrieval for both Y! and Google finance. Satisfied with with document structure in Mongo. Config store needs to be revamped, but it works." />
     <MESSAGE value="Inproved document structure in Mongo. Config store needs to be revamped, but it works." />
-    <option name="LAST_COMMIT_MESSAGE" value="Inproved document structure in Mongo. Config store needs to be revamped, but it works." />
+    <MESSAGE value="Revamped config store. added 'add and remove' symbols" />
+    <option name="LAST_COMMIT_MESSAGE" value="Revamped config store. added 'add and remove' symbols" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1194,7 +1198,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mongotrade/GetConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.6893204" vertical-offset="2062" max-vertical-offset="2992">
+        <state vertical-scroll-proportion="0.9388489" vertical-offset="2062" max-vertical-offset="2992">
           <caret line="156" column="8" selection-start-line="156" selection-start-column="8" selection-end-line="156" selection-end-column="8" />
           <folding />
         </state>
