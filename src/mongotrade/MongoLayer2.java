@@ -38,7 +38,7 @@ public class MongoLayer2 {
 
         DBCursor cursor = collection.find();
         while(cursor.hasNext()) {
-            System.out.println(cursor.next());
+          //  System.out.println(cursor.next());
         }
     }
 
@@ -181,13 +181,13 @@ public class MongoLayer2 {
 
         //what did we update
         /**** Find and display ****/
-
+/*
         DBCursor cursor2 = collection.find(searchQ);
 
         while (cursor2.hasNext()) {
             System.out.println(cursor2.next());
         }
-
+*/
     } //end mongo store
 
 
