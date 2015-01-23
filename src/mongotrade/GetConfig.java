@@ -21,12 +21,7 @@ public class GetConfig {
 
     } //end main
 
-    public void loadConfig() throws UnknownHostException {
-
-        String[] symbols = null;
-        String[] sources = null;
-
-
+    public DBCollection connect() throws UnknownHostException {
         /**** Connect to MongoDB ****/
         MongoClient mongo = new MongoClient("localhost", 27017);
 
@@ -36,7 +31,28 @@ public class GetConfig {
 
         /**** Get collection / table from 'testdb' ****/
         // if collection doesn't exists, MongoDB will create it for you
-        DBCollection coll = db.getCollection("symbols");
+        DBCollection collection = db.getCollection("symbols");
+
+        return collection;
+    } //end connect
+    public void loadConfig() throws UnknownHostException {
+
+        String[] symbols = null;
+        String[] sources = null;
+
+
+        /**** Connect to MongoDB ****/
+//        MongoClient mongo = new MongoClient("localhost", 27017);
+
+        /**** Get database ****/
+        // if database doesn't exists, MongoDB will create it for you
+//        DB db = mongo.getDB("mf_config");
+
+        /**** Get collection / table from 'testdb' ****/
+        // if collection doesn't exists, MongoDB will create it for you
+//        DBCollection coll = db.getCollection("symbols");
+
+        DBCollection coll = connect();
 
         //query for a list of symbols
 
@@ -45,24 +61,27 @@ public class GetConfig {
         if(cursor2.count() == 0) {
             System.out.println("it's blank jim");
             //Nothing setup, put a few symbols in
-            config.addSymbol(coll,"^GSPC","yahoo");
-            config.addSymbol(coll,"^DJI","yahoo");
-            config.addSymbol(coll,"^IXIC","yahoo");
-            config.addSymbol(coll,"^VIX","yahoo");
-            config.addSymbol(coll,"^BKX","yahoo");
-            config.addSymbol(coll,"^SOX","yahoo");
-            config.addSymbol(coll,"^NDX","yahoo");
-            config.addSymbol(coll,"EURUSD=X","yahoo");
-            config.addSymbol(coll,"EURJPY=X","yahoo");
-            config.addSymbol(coll,"GBPUSD=X","yahoo");
-            config.addSymbol(coll,".INX","google");
-            config.addSymbol(coll,".DJI","google");
-            config.addSymbol(coll,".IXIC","google");
-            config.addSymbol(coll,"VIX","google");
-            config.addSymbol(coll,"AXTEN","google");
+            config.addSymbol("^GSPC","yahoo");
+            config.addSymbol("^DJI","yahoo");
+            config.addSymbol("^IXIC","yahoo");
+            config.addSymbol("^VIX","yahoo");
+            config.addSymbol("^BKX","yahoo");
+            config.addSymbol("^SOX","yahoo");
+            config.addSymbol("^NDX","yahoo");
+            config.addSymbol("EURUSD=X","yahoo");
+            config.addSymbol("EURJPY=X","yahoo");
+            config.addSymbol("GBPUSD=X","yahoo");
+            config.addSymbol(".INX","google");
+            config.addSymbol(".DJI","google");
+            config.addSymbol(".IXIC","google");
+            config.addSymbol("VIX","google");
+            config.addSymbol("AXTEN","google");
 
 
         }
+
+        config.removeSymbol("how");
+
 
         DBCursor curssc = coll.find();
         while(curssc.hasNext()) {
@@ -82,7 +101,7 @@ public class GetConfig {
         int ctr=0;
 
         for(Object str : symbols) {
-            //  System.out.println(str);
+              System.out.println(str);
             try {
                 if (sources[ctr].toString().equals("yahoo")) {
                     yhttp.fetchData(str.toString());
@@ -97,7 +116,8 @@ public class GetConfig {
 
     } //end loadConfig
 
-    public void addSymbol(DBCollection collection,String ticker,String source){
+    public void addSymbol(String ticker,String source) throws UnknownHostException {
+        DBCollection collection = connect();
         //construct basic config document
         BasicDBObject searchQ = new BasicDBObject();
         searchQ.put("name", "default");
@@ -107,16 +127,17 @@ public class GetConfig {
         modifiedObject.put("$push", new BasicDBObject().append("Symbols", ticker).append("Source",source));
         collection.update(searchQ, modifiedObject,true,false);
 
-        System.out.println("added " + ticker);
+        //System.out.println("added " + ticker);
 
     } //end addSymbol
 
-    public void removeSymbol(DBCollection collection,String ticker){
+    public void removeSymbol(String ticker) throws UnknownHostException {
         //Load the arrays. Find the symbol to remove, remove the source.
         //rewrite document
         String [] symbols = null;
         String [] sources = null;
 
+        DBCollection collection = connect();
 
         DBCursor curssc = collection.find();
         while(curssc.hasNext()) {
@@ -153,7 +174,7 @@ public class GetConfig {
                 if (!str.equals(ticker)) {
                     newSym.add(str);
                     newSrc.add(sources[ctr]);
-                    config.addSymbol(collection, String.valueOf(str),sources[ctr]);
+                    config.addSymbol(String.valueOf(str),sources[ctr]);
                 }
             } catch (Exception e1) {
                 e1.printStackTrace();
@@ -161,8 +182,8 @@ public class GetConfig {
             ctr++;
         } //end for
 
-        System.out.println(newSym.toString());
-        System.out.println(newSrc.toString());
+       // System.out.println(newSym.toString());
+       // System.out.println(newSrc.toString());
 
         //we have the new arrays.
         //lets update the config document
