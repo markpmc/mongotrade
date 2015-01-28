@@ -95,7 +95,9 @@ public class MongoLayer2 {
                 header.setVolume(Long.parseLong(section[5]));
                 header.setEntry();
 
+                String s_id = header.getTicker() +":"+ day;
                 //update the header
+                dB.put("_id",s_id);
                 dB.put("symbol", header.getTicker());
                 dB.put("Day", day);
                 dB.put("Open", header.getOpen());
@@ -113,7 +115,7 @@ public class MongoLayer2 {
                 collection.update(searchQ, dB, true, false);
 
                 //Work on pushing the detail data to the array
-                body.generateId();
+                //body.generateId();
 
 
                 dbo = body.bsonFromPojo();
@@ -170,14 +172,14 @@ public class MongoLayer2 {
         collection.update( searchQ, update, true, false );
 
         //let see what we have
-/*        DBCursor tcursor = collection.find();
+        DBCursor tcursor = collection.find();
         int i=1;
         while (tcursor.hasNext()) {
             System.out.println("ML2 Inserted Document: "+i);
             System.out.println(tcursor.next());
             i++;
         }
-*/
+
 
         //what did we update
         /**** Find and display ****/

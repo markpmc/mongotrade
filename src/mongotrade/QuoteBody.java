@@ -4,8 +4,12 @@ import org.bson.types.ObjectId;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
+import java.util.Date;
+
 public class QuoteBody {
-	
+
+    YMUtils util = new YMUtils();
+
 	private ObjectId _id;
     private String timestamp;
     private String close;
@@ -29,9 +33,9 @@ public class QuoteBody {
     	this._id = _id;
     }
     
-    public void generateId() {
-    	if( this._id == null ) 
-    			this._id = new ObjectId();
+    private void generateId() {
+            long ts = Long.parseLong(this.timestamp);
+            this._id = util.objectIdWithTimestamp(ts);
     }
     
     public String getTimestamp() {
@@ -39,7 +43,11 @@ public class QuoteBody {
     }
     public void setTimestamp(String timestamp) {
         this.timestamp = timestamp;
+        generateId();
+        this.timestamp = util.unixtodate(Long.parseLong(this.timestamp));
+
     }
+
     public String getClose() {
         return close;
     }
