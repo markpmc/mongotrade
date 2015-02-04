@@ -75,7 +75,6 @@ public class GetConfig {
             config.addSymbol(".DJI","google");
             config.addSymbol(".IXIC","google");
             config.addSymbol("VIX","google");
-            config.addSymbol("AXTEN","google");
 
 
         }

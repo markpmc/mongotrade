@@ -29,8 +29,8 @@ public class MongoLayer2 {
 
         ///@@
         // Delete All documents before running example again
-        WriteResult result = collection.remove(new BasicDBObject());
-        System.out.println(result.toString());
+        //WriteResult result = collection.remove(new BasicDBObject());
+        //System.out.println(result.toString());
         ////
 
 
