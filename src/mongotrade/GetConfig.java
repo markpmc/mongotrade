@@ -65,21 +65,13 @@ public class GetConfig {
             config.addSymbol("^DJI","yahoo");
             config.addSymbol("^IXIC","yahoo");
             config.addSymbol("^VIX","yahoo");
-            config.addSymbol("^BKX","yahoo");
-            config.addSymbol("^SOX","yahoo");
-            config.addSymbol("^NDX","yahoo");
-            config.addSymbol("EURUSD=X","yahoo");
-            config.addSymbol("EURJPY=X","yahoo");
-            config.addSymbol("GBPUSD=X","yahoo");
-            config.addSymbol(".INX","google");
-            config.addSymbol(".DJI","google");
-            config.addSymbol(".IXIC","google");
-            config.addSymbol("VIX","google");
+
+
 
 
         }
 
-        config.removeSymbol("how");
+        //config.removeSymbol("how");
 
 
         DBCursor curssc = coll.find();

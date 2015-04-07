@@ -35,12 +35,12 @@ public class MongoLayer2 {
 
 
        // mongo_store(collection);
-
+/*
         DBCursor cursor = collection.find();
         while(cursor.hasNext()) {
-          //  System.out.println(cursor.next());
+            System.out.println(cursor.next());
         }
-    }
+*/    }  //end main
 
     //handle the connection to mongo and the correct collection
     public void connect(String strTicker) throws UnknownHostException {

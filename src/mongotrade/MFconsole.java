@@ -125,4 +125,8 @@ public class MFconsole {
 
         config.addSymbol(ticker,source);
     } //end addSymbol
+
+    private static void listSymbols(Scanner inputReader) throws UnknownHostException {
+
+    }//end listSymbols
 } //end class

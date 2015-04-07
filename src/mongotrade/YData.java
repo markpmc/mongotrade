@@ -81,7 +81,7 @@ public class YData {
 	        QuoteHeader qheader = new QuoteHeader();
 	        QuoteBody qbody = new QuoteBody(); 
 	        YMUtils ymutil = new YMUtils();
-            MongoLayer2 ml = new MongoLayer2();
+            MongoLayerRT ml = new MongoLayerRT();
             List<String> bodyList = new ArrayList<String>(); // or LinkedList<String>();
 
 	       //process the csv file begining with the header
@@ -128,7 +128,7 @@ public class YData {
                             try {
                                 //  ml.connect(qheader.getTicker());
                                // System.out.println("Calling mongo_store= " + ictr);
-                                ml.mongo_store(qheader,bodyList);
+                                ml.mongo_store_rt(qheader,bodyList);
                             } catch (UnknownHostException e) {
                                 e.printStackTrace();
                             }
@@ -159,7 +159,7 @@ public class YData {
             //process the final day that didn't get stored by changing day
             try {
                 //  ml.connect(qheader.getTicker());
-                ml.mongo_store(qheader,bodyList);
+                ml.mongo_store_rt(qheader,bodyList);
                // System.out.println("Cleaning header");
                 qheader.initDay(); //init the header for new day
                 bodyList.clear();

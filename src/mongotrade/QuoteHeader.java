@@ -19,8 +19,15 @@ public class QuoteHeader {
     private String tz;
     private String currency;
     private String unit;
+    private boolean dirty;
 
 
+    public void setClean() {
+        this.dirty = false;
+    }
+    public boolean checkDirty(){
+        return this.dirty;
+    }
     public void setEntry(){
         this.entries ++;
     }
@@ -35,6 +42,7 @@ public class QuoteHeader {
     public void setOpen(float open){
     	if (this.open == 0) {
     		this.open = open;
+            this.dirty = true;
     	}
     }
     public String getOpen() {
@@ -43,6 +51,7 @@ public class QuoteHeader {
     public void setHigh(float high){
     	if(high > this.high){
     		this.high = high;
+            this.dirty = true;
     	}
     }
     public String getHigh() {
@@ -51,6 +60,7 @@ public class QuoteHeader {
     public void setLow(float low){
     	if((this.low == 0)||(this.low > low)){
     		this.low = low;
+            this.dirty = true;
     	}
     	
     }
@@ -121,6 +131,7 @@ public class QuoteHeader {
     	this.close = 0;
     	this.volume = 0;
         this.entries = 0;
+        this.dirty = false;
     }
     
     public void QuoteHeader(){
