@@ -2,12 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d927f5d9-ce6d-49d7-958b-84378c2e728e" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mongotrade/MongoLayerRT.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/mongotrade/mongotrade/QuoteHeader.class" afterPath="$PROJECT_DIR$/out/production/mongotrade/mongotrade/QuoteHeader.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/mongotrade/mongotrade/YData.class" afterPath="$PROJECT_DIR$/out/production/mongotrade/mongotrade/YData.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mongotrade/GetConfig.java" afterPath="$PROJECT_DIR$/src/mongotrade/GetConfig.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mongotrade/MFconsole.java" afterPath="$PROJECT_DIR$/src/mongotrade/MFconsole.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mongotrade/MongoLayer2.java" afterPath="$PROJECT_DIR$/src/mongotrade/MongoLayer2.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mongotrade/QuoteHeader.java" afterPath="$PROJECT_DIR$/src/mongotrade/QuoteHeader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mongotrade/YData.java" afterPath="$PROJECT_DIR$/src/mongotrade/YData.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mongotrade/MongoLayerRT.java" afterPath="$PROJECT_DIR$/src/mongotrade/MongoLayerRT.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="mongotrade.iws" />
@@ -41,8 +40,8 @@
       <file leaf-file-name="MFconsole.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mongotrade/MFconsole.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1709" max-vertical-offset="2278">
-              <caret line="130" column="22" selection-start-line="130" selection-start-column="22" selection-end-line="130" selection-end-column="22" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="2059" max-vertical-offset="2601">
+              <caret line="147" column="8" selection-start-line="147" selection-start-column="8" selection-end-line="147" selection-end-column="8" />
               <folding />
             </state>
           </provider>
@@ -51,13 +50,21 @@
       <file leaf-file-name="MongoLayerRT.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mongotrade/MongoLayerRT.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.1237785" vertical-offset="5112" max-vertical-offset="5610">
-              <caret line="321" column="0" selection-start-line="321" selection-start-column="0" selection-end-line="321" selection-end-column="0" />
+            <state vertical-scroll-proportion="-7.1758957" vertical-offset="3733" max-vertical-offset="5865">
+              <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2649#2661#0" expanded="true" />
-                <element signature="e#7217#7229#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GetConfig.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mongotrade/GetConfig.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-4.0" vertical-offset="1074" max-vertical-offset="4063">
+              <caret line="75" column="56" selection-start-line="75" selection-start-column="47" selection-end-line="75" selection-end-column="56" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -67,7 +74,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="2783" max-vertical-offset="3366">
               <caret line="181" column="0" selection-start-line="173" selection-start-column="8" selection-end-line="181" selection-end-column="0" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -77,7 +86,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="1876" max-vertical-offset="2839">
               <caret line="158" column="57" selection-start-line="158" selection-start-column="52" selection-end-line="158" selection-end-column="57" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -85,15 +96,11 @@
       <file leaf-file-name="QuoteHeader.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mongotrade/QuoteHeader.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.275862" vertical-offset="1491" max-vertical-offset="1751">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1683">
               <caret line="142" column="83" selection-start-line="142" selection-start-column="79" selection-end-line="142" selection-end-column="83" />
               <folding>
-                <element signature="e#481#482#0" expanded="true" />
-                <element signature="e#515#516#0" expanded="true" />
-                <element signature="e#548#549#0" expanded="true" />
-                <element signature="e#581#582#0" expanded="true" />
-                <element signature="e#1967#1968#0" expanded="true" />
-                <element signature="e#2003#2004#0" expanded="true" />
+                <element signature="e#3039#3040#0" expanded="true" />
+                <element signature="e#3136#3137#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -104,7 +111,9 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="98" max-vertical-offset="1122">
               <caret line="14" column="65" selection-start-line="14" selection-start-column="65" selection-end-line="14" selection-end-column="65" />
-              <folding />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -132,10 +141,10 @@
         <option value="$PROJECT_DIR$/src/mongotrade/YMUtils.java" />
         <option value="$PROJECT_DIR$/src/mongotrade/QuoteBody.java" />
         <option value="$PROJECT_DIR$/src/mongotrade/MongoLayer2.java" />
-        <option value="$PROJECT_DIR$/src/mongotrade/MFconsole.java" />
         <option value="$PROJECT_DIR$/src/mongotrade/QuoteHeader.java" />
-        <option value="$PROJECT_DIR$/src/mongotrade/GetConfig.java" />
         <option value="$PROJECT_DIR$/src/mongotrade/YData.java" />
+        <option value="$PROJECT_DIR$/src/mongotrade/MFconsole.java" />
+        <option value="$PROJECT_DIR$/src/mongotrade/GetConfig.java" />
         <option value="$PROJECT_DIR$/src/mongotrade/MongoLayerRT.java" />
       </list>
     </option>
@@ -144,8 +153,8 @@
     <treeState />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="10" />
-    <option name="y" value="16" />
+    <option name="x" value="9" />
+    <option name="y" value="19" />
     <option name="width" value="1336" />
     <option name="height" value="686" />
   </component>
@@ -590,29 +599,35 @@
       <option name="project" value="LOCAL" />
       <updated>1423078192620</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="No threading yet.&#10;ML_RT should handle real-time updates now. No longer dependent upon 'batch' data.">
+      <created>1428441062507</created>
+      <option name="number" value="00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1428441062507</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="10" y="16" width="1336" height="686" extended-state="0" />
+    <frame x="9" y="19" width="1336" height="686" extended-state="0" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34414414" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32626426" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32612613" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14145234" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14106584" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32792792" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.43423423" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26666668" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17006269" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24886535" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24962178" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2492163" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39967373" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -645,7 +660,8 @@
     <MESSAGE value="MFConsole mostly works. Good enough for beta use." />
     <MESSAGE value="MFConsole mostly works. Good enough for beta use.&#10;Incorporated the unix timestamps into the oid/_id generation for the minute bars.&#10;Used symbol:day as main _id. Should give me a free compound index." />
     <MESSAGE value="Fine tuned a few things. Threading is next." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fine tuned a few things. Threading is next." />
+    <MESSAGE value="No threading yet.&#10;ML_RT should handle real-time updates now. No longer dependent upon 'batch' data." />
+    <option name="LAST_COMMIT_MESSAGE" value="No threading yet.&#10;ML_RT should handle real-time updates now. No longer dependent upon 'batch' data." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -967,27 +983,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mongotrade/GetConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.18429" vertical-offset="781" max-vertical-offset="3196">
-          <caret line="73" column="10" selection-start-line="73" selection-start-column="10" selection-end-line="73" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mongotrade/MFconsole.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1728" max-vertical-offset="2278">
-          <caret line="130" column="22" selection-start-line="130" selection-start-column="22" selection-end-line="130" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/mongotrade/YData.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1876" max-vertical-offset="2839">
           <caret line="158" column="57" selection-start-line="158" selection-start-column="52" selection-end-line="158" selection-end-column="57" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -995,7 +997,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="98" max-vertical-offset="1122">
           <caret line="14" column="65" selection-start-line="14" selection-start-column="65" selection-end-line="14" selection-end-column="65" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1003,33 +1007,45 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2783" max-vertical-offset="3366">
           <caret line="181" column="0" selection-start-line="173" selection-start-column="8" selection-end-line="181" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mongotrade/QuoteHeader.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.275862" vertical-offset="1491" max-vertical-offset="1751">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1491" max-vertical-offset="1751">
           <caret line="142" column="83" selection-start-line="142" selection-start-column="79" selection-end-line="142" selection-end-column="83" />
           <folding>
-            <element signature="e#481#482#0" expanded="true" />
-            <element signature="e#515#516#0" expanded="true" />
-            <element signature="e#548#549#0" expanded="true" />
-            <element signature="e#581#582#0" expanded="true" />
-            <element signature="e#1967#1968#0" expanded="true" />
-            <element signature="e#2003#2004#0" expanded="true" />
+            <element signature="e#3039#3040#0" expanded="true" />
+            <element signature="e#3136#3137#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mongotrade/MFconsole.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="2059" max-vertical-offset="2601">
+          <caret line="147" column="8" selection-start-line="147" selection-start-column="8" selection-end-line="147" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mongotrade/GetConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-4.0" vertical-offset="1074" max-vertical-offset="4063">
+          <caret line="75" column="56" selection-start-line="75" selection-start-column="47" selection-end-line="75" selection-end-column="56" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mongotrade/MongoLayerRT.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1237785" vertical-offset="5112" max-vertical-offset="5610">
-          <caret line="321" column="0" selection-start-line="321" selection-start-column="0" selection-end-line="321" selection-end-column="0" />
+        <state vertical-scroll-proportion="-7.1758957" vertical-offset="3733" max-vertical-offset="5865">
+          <caret line="90" column="0" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2649#2661#0" expanded="true" />
-            <element signature="e#7217#7229#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -1,5 +1,6 @@
 package mongotrade;
 
+import java.io.*;
 import java.lang.reflect.Array;
 import java.net.UnknownHostException;
 import java.util.*;
@@ -14,16 +15,67 @@ public class GetConfig {
     static GetConfig config = new GetConfig();
     YData yhttp = new YData();
     GData ghttp = new GData();
+    public String mHost = new String();
+    public int mPort = 0;
 
-    public static void main(String[] args) throws UnknownHostException {
+    public static void main(String[] args) throws UnknownHostException, FileNotFoundException {
 
+        System.out.println(config.checkConfig());
         config.loadConfig();
 
     } //end main
 
+    public boolean checkConfig() {
+        File configFile = new File("config.properties");
+        InputStream inputStream = null;
+        try {
+            inputStream = new FileInputStream(configFile);
+        } catch (FileNotFoundException e) {
+            return false;
+        }
+
+        //Load the config since we found it
+        Properties props = new Properties();
+
+        try {
+            props.load(inputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mHost = props.getProperty("host");
+        mPort = Integer.parseInt(props.getProperty("port"));
+
+        //System.out.println("loaded host:" + mHost + ":" + mPort);
+        return true;
+    }//end checkConfig
+
+    public void updateConfig(String nHost,String nPort) throws IOException {
+
+        Properties props = new Properties();
+
+        props.setProperty("host", nHost);
+        props.setProperty("port", nPort);
+
+        //write prop file
+        File configFile = new File("config.properties");
+        FileWriter writer = new FileWriter(configFile);
+        props.store(writer, "host settings");
+        writer.close();
+
+
+    }//end updateConfig
+
+    public void batchSymbols() {
+
+
+    }//end batchSymbols
+
     public DBCollection connect() throws UnknownHostException {
         /**** Connect to MongoDB ****/
-        MongoClient mongo = new MongoClient("localhost", 27017);
+        //MongoClient mongo = new MongoClient("localhost", 27017);
+
+        MongoClient mongo = new MongoClient(mHost, mPort);
 
         /**** Get database ****/
         // if database doesn't exists, MongoDB will create it for you

@@ -13,6 +13,7 @@ import com.mongodb.*;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class MongoLayerRT {
     static MongoClient mongo = null;
@@ -21,15 +22,16 @@ public class MongoLayerRT {
     //   static QuoteBody qbody = new QuoteBody();
     static String s_curDay = "";
 
-    public MongoLayerRT() {
 
-    }
 
     public static void main(String[] args) throws UnknownHostException {
         MongoLayerRT mgr;
         mgr = new MongoLayerRT();
 
-        mgr.connect("^spc");
+        mgr.connect();
+
+        DB db = mongo.getDB("quotes");
+        collection = db.getCollection("^gspc");
 
         ///@@
         // Delete All documents before running example again
@@ -55,12 +57,15 @@ public class MongoLayerRT {
     }  //end main
 
     //handle the connection to mongo and the correct collection
-    public void connect(String strTicker) throws UnknownHostException {
-        mongo = new MongoClient("localhost", 27017);
-        DB db = mongo.getDB("quotes");
-        collection = db.getCollection(strTicker);
+    public MongoClient connect() throws UnknownHostException {
+        GetConfig config = new GetConfig();
+        config.checkConfig();
+        mongo = new MongoClient(config.mHost, config.mPort);
 
+       // DB db = mongo.getDB("quotes");
+       // collection = db.getCollection(strTicker);
 
+        return mongo;
     }
 
     //store the quotes
@@ -79,7 +84,7 @@ public class MongoLayerRT {
         // System.out.println("Bodylist=" + bodyList.size());
 
         //connect to mongo
-        mongo = new MongoClient("localhost", 27017);
+        //mongo = new MongoClient("localhost", 27017);
         DB db = mongo.getDB("quotes");
         collection = db.getCollection(header.getTicker());
 
@@ -213,7 +218,9 @@ public class MongoLayerRT {
         }
 
         //connect to db
-        mlrt.connect(header.getTicker());
+        mlrt.connect();
+        DB db = mongo.getDB("quotes");
+        collection = db.getCollection(header.getTicker());
 
         //Prep the array for the minute bars
         BasicDBObject dB = new BasicDBObject();
@@ -265,20 +272,22 @@ public class MongoLayerRT {
                 day = ymutil.unix2day(Long.parseLong(section[0]));
                 s_id = header.getTicker() +":"+ day+ ":meta";
 
-                //stackoverflow example
-                //update = update.append("$set", new BasicDBObject().append("endTime", time));
-                //collection.update( new BasicDBObject().append("_id", pageId), update, true, false);
+
+                //upsert - update or insert
+                BasicDBObject metaQ = new BasicDBObject();
+                metaQ.put("_id", s_id);
 
                 //update the meta stub
                 BasicDBObject metaD = new BasicDBObject();
                // metaD.append("_id", s_id); Document id is handed by the search query
-               // metaD.append("$setOnInsert",new BasicDBObject().append("symbol", header.getTicker()));
-               // metaD.append("$setOnInsert",new BasicDBObject().append("Source", header.getSource()));
-               // metaD.append("$setOnInsert",new BasicDBObject().append("Day", day));
 
-
+                metaD.append("$set", new BasicDBObject().append("Source", header.getSource()));
                 //open. $setOnInsert only stores value upon document creation
                 metaD.append("$setOnInsert", new BasicDBObject().append("Open", section[4]));
+
+
+                //create the meta data stub
+                collection.update(metaQ, metaD, true, false);
 
                 //high. $max only stores value if larger than stored value
                 metaD.append("$max", new BasicDBObject().append("High", section[2]));
@@ -292,34 +301,40 @@ public class MongoLayerRT {
                 //volume. $inc increment value by given amount
                 metaD.append("$inc", new BasicDBObject().append("Volume", Long.parseLong(section[5])));
 
+
+
+
                // System.out.println(metaD.toString());
 
 
                 //upsert - update or insert
-                BasicDBObject metaQ = new BasicDBObject();
-                metaQ.put("_id", s_id);
+                //BasicDBObject metaQ = new BasicDBObject();
+                //metaQ.put("_id", s_id);
 
-                //store the minute bar data
-                collection.update(metaQ, metaD, true, false);
-/*
-                DBCursor mC = collection.find(metaQ);
-                while (mC.hasNext()) {
-                    System.out.println(mC.next());
-                }
-*/
+                //store the meta data bar data
+                collection.update(metaQ, metaD);
+
+
+
 
             } //end length check
         } //end for bodyList
 
         //let see what we have
-        DBCursor tcursor = collection.find();
+        Pattern p = Pattern.compile("20150417");
+        BasicDBObject spxQ = new BasicDBObject();
+        spxQ.put("_id", p );
+        DBCursor tcursor = collection.find(spxQ); //collection that was just updated.
         int i=1;
+        System.out.println("doc count=" + tcursor.count());
         while (tcursor.hasNext()) {
             System.out.println("MLRT Inserted Document: "+i);
             System.out.println(tcursor.next());
             i++;
-        }
+        } //end while
 
-    }
+    } //end mongo_store
+
+
 
 } //end class

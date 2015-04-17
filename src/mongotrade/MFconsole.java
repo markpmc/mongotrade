@@ -26,13 +26,19 @@ public class MFconsole {
         boolean hasRequestedQuit = false;
         boolean needHelp = false;
         Action action_input = Action.I;
+        Scanner inputReader = new Scanner(System.in);
+
+        //check for mongo config. first time run
+        if (!config.checkConfig()) {
+            getConfigSettings(inputReader);
+        }
 
         while(! hasRequestedQuit) {
 
             //get input from user from command prompt
             System.out.println("Please enter requested action: (help means help)");
 
-            Scanner inputReader = new Scanner(System.in);
+           // Scanner inputReader = new Scanner(System.in);
 
             //Getting input in String format
             String action = inputReader.nextLine();
@@ -129,4 +135,17 @@ public class MFconsole {
     private static void listSymbols(Scanner inputReader) throws UnknownHostException {
 
     }//end listSymbols
+
+    private static void getConfigSettings(Scanner inputReader) throws IOException {
+        System.out.println("Mongo Host: [localhost]");
+        String host = inputReader.nextLine();
+        if(host.length() <1){host = "localhost";}
+
+        System.out.println("Mongo Port: [27017]");
+        String port = inputReader.nextLine();
+        if(port.length() <1){port = "27017";}
+
+        config.updateConfig(host,port);
+
+    } //end getConfigSettings
 } //end class
