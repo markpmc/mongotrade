@@ -5,11 +5,12 @@ import java.util.Date;
 
 public class QuoteHeader {
 
+    private String h_id;
 	private String day;
-    private float open;
-    private float high;
-    private float low;
-    private float close;
+    private String open;
+    private String high;
+    private String low;
+    private String close;
     private long volume;
     private long entries;
     private String uri;
@@ -21,6 +22,9 @@ public class QuoteHeader {
     private String unit;
     private boolean dirty;
 
+
+    public void setH_id(String id) {this.h_id = id;}
+    public String getH_id() {return this.h_id;}
 
     public void setClean() {
         this.dirty = false;
@@ -39,39 +43,19 @@ public class QuoteHeader {
     public String getVolume() {
     	return String.valueOf(volume);
     }
-    public void setOpen(float open){
-    	if (this.open == 0) {
-    		this.open = open;
-            this.dirty = true;
-    	}
-    }
-    public String getOpen() {
-    	return String.valueOf(open);
-    }
-    public void setHigh(float high){
-    	if(high > this.high){
-    		this.high = high;
-            this.dirty = true;
-    	}
-    }
-    public String getHigh() {
-    	return String.valueOf(high);
-    }
-    public void setLow(float low){
-    	if((this.low == 0)||(this.low > low)){
-    		this.low = low;
-            this.dirty = true;
-    	}
-    	
-    }
+    public void setOpen(String open){this.open = open;}
+    public String getOpen() {return open;}
+    public void setHigh(String high){this.high = high;}
+    public String getHigh() {return high;}
+    public void setLow(String low){this.low = low;}
     public String getLow() {
     	return String.valueOf(low);
     }
-    public void setClose(float close){
+    public void setClose(String close){
     	this.close = close;
     }
     public String getClose() {
-    	return String.valueOf(close);
+    	return close;
     }
     public void setDay(String day) {
     	this.day = day;
@@ -124,14 +108,17 @@ public class QuoteHeader {
     }
     
     public void initDay(){
+        this.h_id = "";
         this.day = "";
-    	this.open = 0;
-    	this.high = 0;
-    	this.low = 0;
-    	this.close = 0;
+    	this.open = "";
+    	this.high = "";
+    	this.low = "";
+    	this.close = "";
     	this.volume = 0;
         this.entries = 0;
         this.dirty = false;
+        //this.source = "";
+        //this.ticker = "";
     }
     
     public void QuoteHeader(){

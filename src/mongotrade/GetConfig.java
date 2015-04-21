@@ -13,8 +13,8 @@ import com.mongodb.*;
 public class GetConfig {
 
     static GetConfig config = new GetConfig();
-    YData yhttp = new YData();
-    GData ghttp = new GData();
+    YData2 yhttp = new YData2();
+    GData2 ghttp = new GData2();
     public String mHost = new String();
     public int mPort = 0;
 
