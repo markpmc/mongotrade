@@ -38,7 +38,7 @@ public class QuoteHeader {
     public long getEntries(){ return this.entries;}
 
     public void setVolume(long volume){
-    	this.volume = this.volume + volume;
+    	this.volume = volume;
     }
     public String getVolume() {
     	return String.valueOf(volume);

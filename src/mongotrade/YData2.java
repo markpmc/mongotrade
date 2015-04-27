@@ -1,5 +1,10 @@
 package mongotrade;
 
+
+/**
+ * Created by mark.mcclellan on 4/20/2015.
+ */
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -78,13 +83,14 @@ public class YData2 {
     //replies upon QuoteBody and QuoteHeader as data structures
     public void process_yahoo_csv(StringBuffer payload) throws UnknownHostException {
         String s_curDay = "Dummy";
-        QuoteHeader qheader = new QuoteHeader();
+        //QuoteHeader qheader = new QuoteHeader();
+        BarCache quote = new BarCache();
         QuoteBody qbody = new QuoteBody();
         YMUtils ymutil = new YMUtils();
         MongoLayerRT ml = new MongoLayerRT();
         List<String> bodyList = new ArrayList<String>(); // or LinkedList<String>();
 
-        //ml.connect();
+        quote.initDay();
 
         //process the csv file begining with the header
         boolean b_header = true;
@@ -97,6 +103,7 @@ public class YData2 {
 
         //start processing
         for(String line : d_array){
+           // System.out.println(line);
             if(b_header) { //process header
                 String[] section = line.split(":", -1);
 
@@ -106,11 +113,11 @@ public class YData2 {
 
                 //populate the header data structure with values
                 if(section[0].equals("ticker")){
-                    qheader.setTicker(section[1].toString());
+                    quote.setTicker(section[1].toString());
                 }else if(section[0].equals("Company-Name")){
-                    qheader.setTickerName(section[1].toString());
+                    //qheader.setTickerName(section[1].toString());
                 }
-                qheader.setSource("Y");
+                quote.setSource("Y");
                 //end load header info
 
 
@@ -125,25 +132,25 @@ public class YData2 {
 
                     String date = ymutil.unixtodate(Long.parseLong(section[0]));
 
-                        qheader.setOpen(section[4]);
-                        qheader.setHigh(section[2]);
-                        qheader.setLow(section[3]);
-                        qheader.setClose(section[1]);
-                        qheader.setVolume(Long.parseLong(section[5]));
+                    quote.setOpen(section[4]);
+                    quote.setHigh(section[2]);
+                    quote.setLow(section[3]);
+                    quote.setClose(section[1]);
+                    quote.setVolume(Long.parseLong(section[5]));
 
-                        //builder the _id for the data bar.
-                        String bar_id = qheader.getTicker()+":"+qheader.getSource()+":"+date;
-                        qheader.setH_id(bar_id);
+                    //builder the _id for the data bar.
+                    String bar_id = quote.getTicker()+":"+quote.getSource()+":"+date;
+                    quote.setH_id(bar_id);
 
                         //Store the minute bar
-                        ml.mongo_store_bar(qheader);
+                        ml.mongo_store_bar(quote);
 
                         //build the daily key
-                        bar_id = qheader.getTicker()+":"+qheader.getSource()+":"+day;
-                       qheader.setH_id(bar_id);
+                        bar_id = quote.getTicker()+":"+quote.getSource()+":"+day;
+                        quote.setH_id(bar_id);
 
                         //Store the daily bar
-                       ml.mongo_store_bar(qheader);
+                       ml.mongo_store_bar(quote);
                 } //end empty line check
 
             } //end process header-body

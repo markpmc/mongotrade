@@ -1,7 +1,7 @@
 package mongotrade;
 
 /**
- * Created by mark.mcclellan on 11/21/2014.
+ * Created by mark.mcclellan on 4/21/2015.
  */
 
 import com.sun.deploy.util.StringUtils;
@@ -89,7 +89,8 @@ public class GData2 {
     //replies upon QuoteBody and QuoteHeader as data structures
     public void process_google_csv(String ticker, StringBuffer payload) throws UnknownHostException {
         String s_curDay = "Dummy";
-        QuoteHeader qheader = new QuoteHeader();
+        //QuoteHeader qheader = new QuoteHeader();
+        BarCache qheader = new BarCache();
         QuoteBody qbody = new QuoteBody();
         YMUtils ymutil = new YMUtils();
         MongoLayerRT ml = new MongoLayerRT();
