@@ -1,8 +1,5 @@
 package mongotrade;
 
-import java.util.Date;
-
-
 public class QuoteHeader {
 
     private String h_id;

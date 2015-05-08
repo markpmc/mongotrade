@@ -1,10 +1,8 @@
 package mongotrade;
 
-import org.bson.types.ObjectId;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-
-import java.util.Date;
+import org.bson.types.ObjectId;
 
 public class QuoteBody {
 

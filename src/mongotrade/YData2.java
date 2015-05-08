@@ -6,7 +6,6 @@ package mongotrade;
  */
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,15 +14,13 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import javax.net.ssl.HttpsURLConnection;
-
 public class YData2 {
     private final String USER_AGENT = "Mozilla/5.0";
     static YData2 http = new YData2();
 
     public static void main(String[] args) throws Exception {
-        String symbol = "^gspc";
+        //String symbol = "^gspc";
+        String symbol = "EURUSD=X";
         http.fetchData(symbol);
 
 
@@ -68,6 +65,7 @@ public class YData2 {
         String inputLine;
         StringBuffer response = new StringBuffer();
 
+
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine + "\n");
             //System.out.println(inputLine);
@@ -82,15 +80,18 @@ public class YData2 {
     //loops thru processing the header and body.
     //replies upon QuoteBody and QuoteHeader as data structures
     public void process_yahoo_csv(StringBuffer payload) throws UnknownHostException {
-        String s_curDay = "Dummy";
+        String s_curDay = "";
         //QuoteHeader qheader = new QuoteHeader();
-        BarCache quote = new BarCache();
+        BarCache min_quote = new BarCache();
+        BarCache day_quote = new BarCache();
+
         QuoteBody qbody = new QuoteBody();
         YMUtils ymutil = new YMUtils();
         MongoLayerRT ml = new MongoLayerRT();
         List<String> bodyList = new ArrayList<String>(); // or LinkedList<String>();
 
-        quote.initDay();
+        min_quote.initDay();
+        day_quote.initDay();
 
         //process the csv file begining with the header
         boolean b_header = true;
@@ -100,6 +101,8 @@ public class YData2 {
         String[] d_array = data.split("\\n",-1);
 
         int ictr = 0;
+        String day = "";
+        String date = "";
 
         //start processing
         for(String line : d_array){
@@ -113,11 +116,13 @@ public class YData2 {
 
                 //populate the header data structure with values
                 if(section[0].equals("ticker")){
-                    quote.setTicker(section[1].toString());
+                    min_quote.setTicker(section[1].toString());
+                    day_quote.setTicker(section[1].toString());
                 }else if(section[0].equals("Company-Name")){
                     //qheader.setTickerName(section[1].toString());
                 }
-                quote.setSource("Y");
+                min_quote.setSource("Y");
+                day_quote.setSource("Y");
                 //end load header info
 
 
@@ -128,34 +133,54 @@ public class YData2 {
                 if (line.length() > 6) {  //empty line check
                     ictr++;
                     //System.out.println("Body ct= " + ictr);
-                    String day = ymutil.unix2day(Long.parseLong(section[0]));
+                    day = ymutil.unix2day(Long.parseLong(section[0]));
 
-                    String date = ymutil.unixtodate(Long.parseLong(section[0]));
+                    date = ymutil.unixtodate(Long.parseLong(section[0]));
 
-                    quote.setOpen(section[4]);
-                    quote.setHigh(section[2]);
-                    quote.setLow(section[3]);
-                    quote.setClose(section[1]);
-                    quote.setVolume(Long.parseLong(section[5]));
+                    if(s_curDay.equals("")) {s_curDay = day;}
 
-                    //builder the _id for the data bar.
-                    String bar_id = quote.getTicker()+":"+quote.getSource()+":"+date;
-                    quote.setH_id(bar_id);
-
-                        //Store the minute bar
-                        ml.mongo_store_bar(quote);
-
-                        //build the daily key
-                        bar_id = quote.getTicker()+":"+quote.getSource()+":"+day;
-                        quote.setH_id(bar_id);
+                    //yahoo sends multiple day in the file.
+                    //check before we store the new quote
+                    if((!s_curDay.equals(day)) && (!s_curDay.equals(""))) {
+                        //build the daily bar
+                        day_quote.setH_id(day_quote.getTicker() + ":" + day_quote.getSource() + ":" + s_curDay);
 
                         //Store the daily bar
-                       ml.mongo_store_bar(quote);
+                        ml.mongo_store_bar(day_quote, false);
+                        s_curDay = day;
+                    } //end current day check
+
+                    min_quote.setOpen(section[4]);
+                    min_quote.setHigh(section[2]);
+                    min_quote.setLow(section[3]);
+                    min_quote.setClose(section[1]);
+                    min_quote.setVolume(Long.parseLong(section[5]));
+
+                    day_quote.setOpen(section[4]);
+                    day_quote.setHigh(section[2]);
+                    day_quote.setLow(section[3]);
+                    day_quote.setClose(section[1]);
+                    day_quote.setVolume(Long.parseLong(section[5]));
+
+                    //build the _id for the data bar.
+                    String bar_id = min_quote.getTicker()+":"+ min_quote.getSource()+":"+date;
+                    min_quote.setH_id(bar_id);
+
+                    //Store every minute bar we build
+                    ml.mongo_store_bar(min_quote,false);
+                    min_quote.initDay();
+
                 } //end empty line check
 
             } //end process header-body
 
         } //end for array
 
+        //protect against stranding a daily update
+        //build the daily bar
+        day_quote.setH_id(day_quote.getTicker() + ":" + day_quote.getSource() + ":" + day);
+
+        //Store the daily bar
+        ml.mongo_store_bar(day_quote, false);
     } //end process y csv
 } // end class

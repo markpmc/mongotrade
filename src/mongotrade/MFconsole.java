@@ -1,6 +1,5 @@
 package mongotrade;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.Scanner;
@@ -8,12 +7,13 @@ import java.util.Scanner;
 
 public class MFconsole {
 
-    static GetConfig config = new GetConfig();
+
 
     public enum Action {
         A, //Add
         D, //Remove
         L,  //List
+        F,  //Fetch
         I //intialize
     }
 
@@ -27,7 +27,7 @@ public class MFconsole {
         boolean needHelp = false;
         Action action_input = Action.I;
         Scanner inputReader = new Scanner(System.in);
-
+        MFConfig config = new MFConfig();
         //check for mongo config. first time run
         if (!config.checkConfig()) {
             getConfigSettings(inputReader);
@@ -47,6 +47,7 @@ public class MFconsole {
 
             //check for a quit
             hasRequestedQuit = action.trim().equalsIgnoreCase(fQUIT) || action.trim().equalsIgnoreCase(fEXIT);
+            if(hasRequestedQuit){break;}
 
             //check for help request
             needHelp = action.trim().equalsIgnoreCase(fHELP);
@@ -59,7 +60,10 @@ public class MFconsole {
                 action_input = Action.D;
             } else if(action.trim().equalsIgnoreCase("L")){
                 action_input = Action.L;
+            }else if(action.trim().equalsIgnoreCase("F")) {
+                action_input = Action.F;
             }
+
 
             switch (action_input) {
                 case A:
@@ -74,6 +78,12 @@ public class MFconsole {
                     break;
                 case L:
                     System.out.println("Running List");
+                    listSymbols(inputReader);
+                    action_input = Action.I;
+                    break;
+                case F:
+                    System.out.println("Fetching data");
+                    config.fetch();
                     action_input = Action.I;
                     break;
                 default:
@@ -81,11 +91,6 @@ public class MFconsole {
                     break;
 
             } //end switch
-
-
-
-
-
         } //end while
     }  //end main
 
@@ -105,12 +110,15 @@ public class MFconsole {
 
         //System.out.println("To List the current symbols enter List");
         System.out.println("L. List the current symbols");
+
+        //System.out.println("To Retrieve the current symbols enter Fetch");
+        System.out.println("F. Fetch the quote data");
     } //end printHelp
 
     private static void deleteSymbol (Scanner inputReader) throws UnknownHostException {
         System.out.println("Enter ticker symbol to remove");
         String ticker = inputReader.nextLine();
-
+        MFConfig config = new MFConfig();
         config.removeSymbol(ticker);
 
     } //deleteSymbol
@@ -119,12 +127,11 @@ public class MFconsole {
         String ticker = inputReader.nextLine();
         System.out.println("Enter Source [Yahoo]");
         String source = inputReader.nextLine();
-
+        MFConfig config = new MFConfig();
 
         if(source.length() <1){source = "yahoo";}
-        while(!source.trim().equalsIgnoreCase("google") && (!source.trim().equalsIgnoreCase("yahoo"))){
-
-            System.out.println("Please enter a valid quote source [Yahoo or Google]");
+        while(!source.trim().equalsIgnoreCase("google") && (!source.trim().equalsIgnoreCase("yahoo") && !source.trim().equalsIgnoreCase("netfonds"))){
+            System.out.println("Please enter a valid quote source [Yahoo, Google or Netfonds]");
             source = inputReader.nextLine();
             if(source.length() <1){source = "yahoo";}
         }
@@ -133,7 +140,8 @@ public class MFconsole {
     } //end addSymbol
 
     private static void listSymbols(Scanner inputReader) throws UnknownHostException {
-
+        MFConfig config = new MFConfig();
+        config.listSymbols();
     }//end listSymbols
 
     private static void getConfigSettings(Scanner inputReader) throws IOException {
@@ -145,6 +153,7 @@ public class MFconsole {
         String port = inputReader.nextLine();
         if(port.length() <1){port = "27017";}
 
+        MFConfig config = new MFConfig();
         config.updateConfig(host,port);
 
     } //end getConfigSettings

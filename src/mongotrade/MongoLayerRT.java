@@ -11,9 +11,6 @@ package mongotrade;
 import com.mongodb.*;
 
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Pattern;
 
 public class MongoLayerRT {
     static MongoClient mongo = null;
@@ -58,7 +55,7 @@ public class MongoLayerRT {
 
     //handle the connection to mongo and the correct collection
     public MongoClient connect() throws UnknownHostException {
-        GetConfig config = new GetConfig();
+        MFConfig config = new MFConfig();
         config.checkConfig();
         mongo = new MongoClient(config.mHost, config.mPort);
 
@@ -68,7 +65,7 @@ public class MongoLayerRT {
         return mongo;
     }
 
-    public static void mongo_store_bar (BarCache bar) {
+    public static void mongo_store_bar (BarCache bar, boolean incVol) {
         //Do not reply on header. Goal is to update header if required.
         MongoLayerRT mlrt = new MongoLayerRT();
 
@@ -94,38 +91,36 @@ public class MongoLayerRT {
 
                 //update the meta stub
                 BasicDBObject metaD = new BasicDBObject();
-                // metaD.append("_id", s_id); Document id is handed by the search query
-
-               // metaD.append("$set", new BasicDBObject().append("Source", header.getSource()));
-                //open. $setOnInsert only stores value upon document creation
-                metaD.append("$setOnInsert", new BasicDBObject().append("Open", bar.getOpen()));
 
 
-                               //create the meta data stub
-                //upsert - update or insert
-                collection.update(metaQ, metaD, true, false);
+                if (incVol) {
+                    metaD.append("$setOnInsert", new BasicDBObject().append("Open", bar.getOpen()));
+                    //close. just set. should be last updated value
+                    metaD.append("$set", new BasicDBObject().append("Close", bar.getClose()));
+                    //high. $max only stores value if larger than stored value
+                    metaD.append("$max", new BasicDBObject().append("High", bar.getHigh()));
+                    //low. $min only stores value if smaller than stored value
+                    metaD.append("$min", new BasicDBObject().append("Low", bar.getLow()));
+                    //volume. $inc increment value by given amount
+                    metaD.append("$inc", new BasicDBObject().append("Volume", Long.parseLong(bar.getVolume())));
+                } else {
+                    //close. just set. should be last updated value
+                    metaD.append("Open", bar.getOpen());
+                    metaD.append("High", bar.getHigh());
+                    metaD.append("Low", bar.getLow());
+                    metaD.append("Close", bar.getClose());
+                    metaD.append("Volume", Long.parseLong(bar.getVolume()));
+                }
 
-                //high. $max only stores value if larger than stored value
-                metaD.append("$max", new BasicDBObject().append("High", bar.getHigh()));
-
-                //low. $min only stores value if smaller than stored value
-                metaD.append("$min", new BasicDBObject().append("Low", bar.getLow()));
-
-                //close. just set. should be last updated value
-                metaD.append("$set", new BasicDBObject().append("Close", bar.getClose()));
-
-                //volume. $inc increment value by given amount
-                metaD.append("$inc", new BasicDBObject().append("Volume", Long.parseLong(bar.getVolume())));
-
-              //   System.out.println(metaQ.toString() + metaD.toString());
+                 System.out.println(metaQ.toString() + metaD.toString());
 
                 //store the meta data bar data
-                collection.update(metaQ, metaD);
+                collection.update(metaQ, metaD,true,false);
 
 
         // System.out.println(metaD.toString());
         //let see what we have
-/*        Pattern p = Pattern.compile("20150424(\\s|$)");
+/*        Pattern p = Pattern.compile("20150428");
        //"gspc:Y:20150422(\\s|$)"  -- match just daily summary
 
         BasicDBObject spxQ = new BasicDBObject();
@@ -136,7 +131,7 @@ public class MongoLayerRT {
         while ((tcursor.hasNext()) && (i < 11)) {
             System.out.println("MLRT Inserted Document: "+i);
             System.out.println(tcursor.next());
-            //i++;
+            i++;
 
         } //end while
 */

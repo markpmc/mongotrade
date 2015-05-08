@@ -1,8 +1,5 @@
 package mongotrade;
 
-import java.util.Date;
-
-
 public class BarCache {
 
     private String h_id;
@@ -89,7 +86,7 @@ public class BarCache {
     }
     public void setTicker(String ticker) {
 
-        this.ticker = ticker;
+        this.ticker = ticker.replaceAll("^[^a-zA-Z0-9_-]", "");
     }
     public String getSource() {
         return this.source;

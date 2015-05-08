@@ -4,8 +4,6 @@ package mongotrade;
  * Created by mark.mcclellan on 4/21/2015.
  */
 
-import com.sun.deploy.util.StringUtils;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -15,17 +13,14 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.net.ssl.HttpsURLConnection;
-
-import static com.sun.deploy.util.StringUtils.*;
-
 public class GData2 {
     private final String USER_AGENT = "Mozilla/5.0";
     static GData2 http = new GData2();
     List<String> bodyList = new ArrayList<String>(); // or LinkedList<String>();
 
     public static void main(String[] args) throws Exception {
-        String symbol = ".INX";
+        //String symbol = ".INX";
+        String symbol = "EURUSD";
         http.fetchDataG(symbol);
 
 
@@ -88,10 +83,10 @@ public class GData2 {
     //loops thru processing the header and body.
     //replies upon QuoteBody and QuoteHeader as data structures
     public void process_google_csv(String ticker, StringBuffer payload) throws UnknownHostException {
-        String s_curDay = "Dummy";
+        String s_curDay = "";
         //QuoteHeader qheader = new QuoteHeader();
-        BarCache qheader = new BarCache();
-        QuoteBody qbody = new QuoteBody();
+        BarCache min_quote = new BarCache();
+        BarCache day_quote = new BarCache();
         YMUtils ymutil = new YMUtils();
         MongoLayerRT ml = new MongoLayerRT();
 
@@ -120,8 +115,10 @@ public class GData2 {
 
             if(b_header) {
                 //populate the header data structure with values
-                qheader.setTicker(ticker);
-                qheader.setSource("G");
+                min_quote.setTicker(ticker);
+                day_quote.setTicker(ticker);
+                min_quote.setSource("G");
+                day_quote.setSource("G");
                 if(section[0].toString().equals("TIMEZONE_OFFSET")){
                     b_header = false;
                 } //end timezone tag check
@@ -131,21 +128,32 @@ public class GData2 {
                 String uDateStamp = tchlov[0];
 
 
-
                 //is this a new day
-                if (uDateStamp.contains("a")){
-
-                    //init for new data.
-                    qheader.initDay(); //init the header for new day
-
-                    ictr=0;
-
+                if (uDateStamp.contains("a")) {
+                    ictr = 0;
                     workingDayTime = uDateStamp.substring(1);
                     tchlov[0] = workingDayTime;
-                    //System.out.println("time=" + workingDayTime);
+                } else {
+                    //workingDayTime = ymutil.unix2day(Long.parseLong(uDateStamp));
+                }
+
                     day = get_gday(workingDayTime);
 
-                } else {
+
+                    if(!s_curDay.equals(day)){
+                        if(!s_curDay.equals("")) {
+                            //build the _id for the data bar.
+                            day_quote.setH_id(day_quote.getTicker() + ":" + day_quote.getSource() + ":" + day);
+
+                            //Store the daily bar
+                            ml.mongo_store_bar(day_quote, false);
+                        } //end if curday
+                        s_curDay = day;
+                        min_quote.initDay(); //init the header for new day
+                        day_quote.initDay();
+                    } //end if day check
+
+
                     //not a new day. correct timestamp and add to array
                     // dt = datetime.datetime.fromtimestamp(day+(interval_seconds*offset))
                     Long curTimestamp = Long.parseLong(workingDayTime) + (60* Long.parseLong(tchlov[0]));
@@ -156,54 +164,55 @@ public class GData2 {
                     tchlov[0] = fooDate;
                     date = fooDate;
 
-                    qheader.setDay(tchlov[0]);
 
-                    ictr++;
-                } //end if date logic
 
-                //mongo insert goes here
 
-                qheader.setOpen(tchlov[4]);
-                qheader.setHigh(tchlov[2]);
-                qheader.setLow(tchlov[3]);
-                qheader.setClose(tchlov[1]);
-                qheader.setVolume(Long.parseLong(tchlov[5]));
 
-                //builder the _id for the data bar.
-                String bar_id = qheader.getTicker()+":"+qheader.getSource()+":"+date;
-                qheader.setH_id(bar_id);
 
-                //Store the minute bar
-                ml.mongo_store_bar(qheader);
+                //build the minute quote
+                min_quote.setDay(date);
+                min_quote.setOpen(tchlov[4]);
+                min_quote.setHigh(tchlov[2]);
+                min_quote.setLow(tchlov[3]);
+                min_quote.setClose(tchlov[1]);
+                min_quote.setVolume(Long.parseLong(tchlov[5]));
 
-                //store the daily bar
-                //builder the _id for the data bar.
-                bar_id = qheader.getTicker()+":"+qheader.getSource()+":"+day;
-                qheader.setH_id(bar_id);
 
-                //Store the daily bar
-                ml.mongo_store_bar(qheader);
+                //build the daily quote
+                day_quote.setDay(day);
+                day_quote.setOpen(tchlov[4]);
+                day_quote.setHigh(tchlov[2]);
+                day_quote.setLow(tchlov[3]);
+                day_quote.setClose(tchlov[1]);
+                day_quote.setVolume(Long.parseLong(tchlov[5]));
+
+
+
+                if(!date.equals("")) {
+                    //builder the _id for the data bar.
+                    String bar_id = min_quote.getTicker() + ":" + min_quote.getSource() + ":" + date;
+                    min_quote.setH_id(bar_id);
+
+                    //Store the minute bar
+                    ml.mongo_store_bar(min_quote, false);
+                    min_quote.initDay();
+                }
+
             } //end b_header
 
         } //end for array
 
+        //do not strand a partial day
+        //build the _id for the data bar.
+        day_quote.setH_id(day_quote.getTicker()+":"+day_quote.getSource()+":"+s_curDay);
+
+        //Store the daily bar
+        ml.mongo_store_bar(day_quote,false);
 
 
     } //end process y csv
 
-    //Handles the the 2 diff timestamps
-    private void addToBody(String[] data){
- /*
-        Long curTimestamp = Long.parseLong(workingDayTime) + (60* Long.parseLong(tchlov[0]));
-        //System.out.println("curr=" + curTimestamp);
 
-        String fooDate = ymutil.unixtodate(curTimestamp);
-        //System.out.println("running date " + fooDate);
-        tchlov[0] = curTimestamp.toString();
-        line = ymutil.implodeArray(tchlov,",");
-        bodyList.add(line);
-*/
-    }
     private String get_gday(String uDate) {
         YMUtils ymutil = new YMUtils();
         //it's an 'a' followed by a unix date
@@ -211,5 +220,7 @@ public class GData2 {
         String day = ymutil.unix2day(Long.parseLong(uDate));
         return day;
     }
+
+
 } // end class
 

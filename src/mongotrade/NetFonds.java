@@ -4,8 +4,6 @@ package mongotrade;
  * Created by mark.mcclellan on 4/22/2015.
  */
 
-import com.sun.deploy.util.StringUtils;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -13,11 +11,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-
-import javax.net.ssl.HttpsURLConnection;
-
-import static com.sun.deploy.util.StringUtils.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class NetFonds {
     private final String USER_AGENT = "Mozilla/5.0";
@@ -27,8 +23,6 @@ public class NetFonds {
     public static void main(String[] args) throws Exception {
         String symbol = "QQQ.O";
         http.fetchDataNF(symbol);
-
-
     } //end main
 
     public void fetchDataNF(String ticker) throws Exception {
@@ -90,6 +84,7 @@ public class NetFonds {
         //QuoteHeader qheader = new QuoteHeader();
         //QuoteBody qbody = new QuoteBody();
         BarCache minute_cache = new BarCache();
+        BarCache daily_cache = new BarCache();
 
         YMUtils ymutil = new YMUtils();
         MongoLayerRT ml = new MongoLayerRT();
@@ -108,19 +103,20 @@ public class NetFonds {
         String time = "";
         String curDate = "";
 
-        int d_len = d_array.length;
-
         //start processing
         for(String line : d_array){
-        //for (int i = 0; i < d_len; i++){
+            //System.out.println(line);
             ictr++;
 
                 minute_cache.setTicker(ticker);
                 minute_cache.setSource("NF");
+                daily_cache.setTicker(ticker);
+                daily_cache.setSource("NF");
 
                 //process body
                 String[] tchlov = line.split(",", -1);
                 String uDateStamp = tchlov[0];
+
 
                 //len check eliminates the header line
                 if (uDateStamp.length() > 10) {
@@ -132,19 +128,15 @@ public class NetFonds {
                     if(curDate.equals("")){
                         curDate = date;
                         minute_cache.initDay();
+                        daily_cache.initDay();
                     } else if (!curDate.equals(date)){
                         //load current barcache into mongo.
                         //Store the minute bar
                         //build the _id for the minute bar.
-                       // System.out.println("calling mongo store");
                         String bar_id = minute_cache.getTicker() + ":" + minute_cache.getSource() + ":" + date;
                         minute_cache.setH_id(bar_id);
 
-                        ml.mongo_store_bar(minute_cache);
-                        //build the _id for the daily bar.
-                        bar_id = minute_cache.getTicker() + ":" + minute_cache.getSource() + ":" + day;
-                        minute_cache.setH_id(bar_id);
-                        ml.mongo_store_bar(minute_cache);
+                        ml.mongo_store_bar(minute_cache,false);
                         minute_cache.initDay();
                         curDate = date;
                     }
@@ -158,70 +150,47 @@ public class NetFonds {
                     minute_cache.setClose(tchlov[1]);
                     minute_cache.setVolume(Long.parseLong(tchlov[2]));
 
+                    //build the daily bar
+                    daily_cache.setDay(day);
+                    daily_cache.setOpen(tchlov[1]);
+                    daily_cache.setHigh(tchlov[1]);
+                    daily_cache.setLow(tchlov[1]);
+                    daily_cache.setClose(tchlov[1]);
+                    daily_cache.setVolume(Long.parseLong(tchlov[2]));
 
-
-
-
-                    //build the _id for the daily bar.
-                  //  bar_id = qheader.getTicker() + ":" + qheader.getSource() + ":" + day;
-                  //  qheader.setH_id(bar_id);
-                    //System.out.println("storing " + qheader.getOpen() + " " + qheader.getVolume());
-
-                    //Store the daily bar
-                   // ml.mongo_store_bar(qheader);
                 } //end if isNumeric
         } //end for array
 
-        //make sure we didn't strand a bar
-        String bar_id = minute_cache.getTicker() + ":" + minute_cache.getSource() + ":" + date;
-        minute_cache.setH_id(bar_id);
+        if (date.length() > 10) {
+            //make sure we didn't strand a bar
+            String bar_id = minute_cache.getTicker() + ":" + minute_cache.getSource() + ":" + date;
+            minute_cache.setH_id(bar_id);
 
-        ml.mongo_store_bar(minute_cache);
+            ml.mongo_store_bar(minute_cache, false);
 
-        //build the _id for the daily bar.
-        bar_id = minute_cache.getTicker() + ":" + minute_cache.getSource() + ":" + day;
-        minute_cache.setH_id(bar_id);
-        ml.mongo_store_bar(minute_cache);
+            //we only have data for one day. so store the daily_cache summary bay
+            //build the _id for the daily bar.
+            bar_id = daily_cache.getTicker() + ":" + daily_cache.getSource() + ":" + day;
+            daily_cache.setH_id(bar_id);
+            ml.mongo_store_bar(daily_cache, false);
 
-        minute_cache.initDay();
-
+            minute_cache.initDay();
+            daily_cache.initDay();
+        }
 
     } //end process nf csv
 
     //convert time from Netfonds central european time to eastern standard time
     public String CET2EST(String time){
-        Calendar europeCal = new GregorianCalendar(TimeZone.getTimeZone(""));
-/*
-        // Given a time of 10am in Japan, get the local time
-       // japanCal = new GregorianCalendar(TimeZone.getTimeZone("Japan"));
-        europeCal.set(Calendar.HOUR_OF_DAY, 10);            // 0..23
-        europeCal.set(Calendar.MINUTE, 0);
-        europeCal.set(Calendar.SECOND, 0);
 
-// Create a Calendar object with the local time zone and set
-// the UTC from japanCal
-        Calendar estCal = new GregorianCalendar();
-        estCal.setTimeInMillis(europeCal.getTimeInMillis());
 
-// Get the time in the local time zone
-        hour = local.get(Calendar.HOUR);                   // 5
-        minutes = local.get(Calendar.MINUTE);              // 0
-        seconds = local.get(Calendar.SECOND);              // 0
-        am = local.get(Calendar.AM_PM) == Calendar.AM;     // false
-*/
         return time;
     } //end convert timezone
 
     public static boolean isNumeric(String str)
     {
         return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
-    }
-    private String get_gday(String uDate) {
-        YMUtils ymutil = new YMUtils();
-        //it's an 'a' followed by a unix date
-        //uDate = uDate.substring(1);
-        String day = ymutil.unix2day(Long.parseLong(uDate));
-        return day;
-    }
+    } //end isNumeric
+
 } // end class
 
