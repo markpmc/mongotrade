@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 
-public class MFconsole {
+public class MFConsole {
 
 
 
@@ -112,7 +112,7 @@ public class MFconsole {
         System.out.println("L. List the current symbols");
 
         //System.out.println("To Retrieve the current symbols enter Fetch");
-        System.out.println("F. Fetch the quote data");
+        System.out.println("F. Fetch the quote data for all symbols");
     } //end printHelp
 
     private static void deleteSymbol (Scanner inputReader) throws UnknownHostException {
