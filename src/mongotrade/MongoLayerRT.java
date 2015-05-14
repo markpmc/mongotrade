@@ -13,22 +13,19 @@ import com.mongodb.*;
 import java.net.UnknownHostException;
 
 public class MongoLayerRT {
-    static MongoClient mongo = null;
+   // static MongoClient mongo = null;
     static DBCollection collection = null;
-    //static QuoteHeader qheader = new QuoteHeader();
-    //   static QuoteBody qbody = new QuoteBody();
+    private static DB db = null;
+    private static String database = "quotes";
     static String s_curDay = "";
 
-
+    MFConfig config = new MFConfig();
 
     public static void main(String[] args) throws UnknownHostException {
         MongoLayerRT mgr;
         mgr = new MongoLayerRT();
 
-        mgr.connect();
-
-        DB db = mongo.getDB("quotes");
-        collection = db.getCollection("^gspc");
+        collection = mgr.checkConnection("gspc");
 
         ///@@
         // Delete All documents before running example again
@@ -53,35 +50,23 @@ public class MongoLayerRT {
 
     }  //end main
 
-    //handle the connection to mongo and the correct collection
-    public MongoClient connect() throws UnknownHostException {
-        MFConfig config = new MFConfig();
-        config.checkConfig();
-        mongo = new MongoClient(config.mHost, config.mPort);
-
-       // DB db = mongo.getDB("quotes");
-       // collection = db.getCollection(strTicker);
-
-        return mongo;
+    private DBCollection checkConnection(String collection) throws UnknownHostException{
+        if(db == null){
+            config.checkConfig();
+            db = (new MongoClient(config.mHost, config.mPort)).getDB(database);
+        }
+        return db.getCollection(collection);
     }
 
     public static void mongo_store_bar (BarCache bar, boolean incVol) {
         //Do not reply on header. Goal is to update header if required.
         MongoLayerRT mlrt = new MongoLayerRT();
 
-        //connect to db
         try {
-            mlrt.connect();
+            collection = mlrt.checkConnection(bar.getTicker());
         } catch (UnknownHostException e) {
-            System.out.println("failed to connect");
             e.printStackTrace();
         }
-
-
-        DB db = mongo.getDB("quotes");
-
-        collection = db.getCollection(bar.getTicker());
-
 
                 //_id is built in calling proc and is simply passed in
                 //expected ticker:source:dayframe
@@ -91,7 +76,6 @@ public class MongoLayerRT {
 
                 //update the meta stub
                 BasicDBObject metaD = new BasicDBObject();
-
 
                 if (incVol) {
                     metaD.append("$setOnInsert", new BasicDBObject().append("Open", bar.getOpen()));

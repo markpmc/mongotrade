@@ -8,6 +8,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="mongo-2.10.1" level="project" />
+    <orderEntry type="library" name="ta-lib-0.4.0" level="project" />
   </component>
 </module>
-

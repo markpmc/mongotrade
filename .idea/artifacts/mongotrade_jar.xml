@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="mongotrade:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/mongotrade_jar</output-path>
+    <root id="archive" name="mongotrade.jar">
+      <element id="module-output" name="mongotrade" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/ta-lib-0.4.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/mongo-2.10.1.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

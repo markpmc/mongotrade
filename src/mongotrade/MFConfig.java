@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.String.valueOf;
+import static java.lang.System.load;
 import static java.lang.System.out;
 
 /**
@@ -21,6 +22,8 @@ public class MFConfig {
     //mongodb variables
     public static String mHost = ""; //"localhost"
     public static int mPort = 0; //27017
+    private static DB db = null;
+    private static String database = "mf_config";
 
     //symbol variables
     static String[] symbols = null;
@@ -38,6 +41,14 @@ public class MFConfig {
         config.fetch();
         //config.removeSymbol("^VIX");
     } //end main
+
+    private static DBCollection checkConnection(String collection) throws UnknownHostException{
+        if(db == null){
+            config.checkConfig();
+            db = (new MongoClient(mHost, mPort)).getDB(database);
+        }
+        return db.getCollection(collection);
+    }
 
     public boolean checkConfig() {
         File configFile = new File("config.properties");
@@ -86,39 +97,14 @@ public class MFConfig {
     }//end batchSymbols
 
     public DBCollection connect() throws UnknownHostException {
-        /**** Connect to MongoDB ****/
-        //MongoClient mongo = new MongoClient("localhost", 27017);
-
-        MongoClient mongo = new MongoClient(mHost, mPort);
-
-        /**** Get database ****/
-        // if database doesn't exists, MongoDB will create it for you
-        DB db = mongo.getDB("mf_config");
-
-        /**** Get collection / table from 'testdb' ****/
-        // if collection doesn't exists, MongoDB will create it for you
-        DBCollection collection = db.getCollection("symbols");
-
+        DBCollection collection = checkConnection("symbols");
         return collection;
     } //end connect
 
     public void loadConfig() throws UnknownHostException {
 
-        DBCollection coll = null;
-        try {
-            coll = config.connect();
-        } catch (UnknownHostException e) {
-            config.checkConfig();
-            try {
-                config.connect();
-            } catch (UnknownHostException e1) {
-                e1.printStackTrace();
-            }
-            e.printStackTrace();
-        }
-
         //query for a list of symbols
-
+        DBCollection coll = connect();
         DBCursor cursor2 = coll.find();
 
         if (cursor2.count() == 0) {
@@ -156,12 +142,9 @@ public class MFConfig {
         GData2 ghttp = new GData2();
         NetFonds nhttp = new NetFonds();
 
-
-        try {
-            config.checkConfig();
-            config.loadConfig();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
+        //make sure the symbol list is loaded.
+        if(symbols == null) {
+            loadConfig();
         }
 
         int ctr = 0;
