@@ -81,8 +81,6 @@ public class NetFonds {
     //replies upon QuoteBody and QuoteHeader as data structures
     public void process_netfonds_csv(String ticker, StringBuffer payload) throws UnknownHostException {
         String s_curDay = "Dummy";
-        //QuoteHeader qheader = new QuoteHeader();
-        //QuoteBody qbody = new QuoteBody();
         BarCache minute_cache = new BarCache();
         BarCache daily_cache = new BarCache();
 
@@ -110,9 +108,10 @@ public class NetFonds {
 
                 minute_cache.setTicker(ticker);
                 minute_cache.setSource("NF");
+                minute_cache.setTz("GMT+0:00");
                 daily_cache.setTicker(ticker);
                 daily_cache.setSource("NF");
-
+                daily_cache.setTz("GMT+0:00");
                 //process body
                 String[] tchlov = line.split(",", -1);
                 String uDateStamp = tchlov[0];
@@ -127,8 +126,8 @@ public class NetFonds {
 
                     if(curDate.equals("")){
                         curDate = date;
-                        minute_cache.initDay();
-                        daily_cache.initDay();
+                        minute_cache.init();
+                        daily_cache.init();
                     } else if (!curDate.equals(date)){
                         //load current barcache into mongo.
                         //Store the minute bar
@@ -137,25 +136,27 @@ public class NetFonds {
                         minute_cache.setH_id(bar_id);
 
                         ml.mongo_store_bar(minute_cache,false);
-                        minute_cache.initDay();
+                        minute_cache.init();
                         curDate = date;
                     }
 
 
                     //build the minute bar
                     minute_cache.setDay(date);
-                    minute_cache.setOpen(tchlov[1]);
-                    minute_cache.setHigh(tchlov[1]);
-                    minute_cache.setLow(tchlov[1]);
-                    minute_cache.setClose(tchlov[1]);
+                    minute_cache.setType("M");
+                    minute_cache.setOpen(Double.parseDouble(tchlov[1]));
+                    minute_cache.setHigh(Double.parseDouble(tchlov[1]));
+                    minute_cache.setLow(Double.parseDouble(tchlov[1]));
+                    minute_cache.setClose(Double.parseDouble(tchlov[1]));
                     minute_cache.setVolume(Long.parseLong(tchlov[2]));
 
                     //build the daily bar
                     daily_cache.setDay(day);
-                    daily_cache.setOpen(tchlov[1]);
-                    daily_cache.setHigh(tchlov[1]);
-                    daily_cache.setLow(tchlov[1]);
-                    daily_cache.setClose(tchlov[1]);
+                    daily_cache.setType("D");
+                    daily_cache.setOpen(Double.parseDouble(tchlov[1]));
+                    daily_cache.setHigh(Double.parseDouble(tchlov[1]));
+                    daily_cache.setLow(Double.parseDouble(tchlov[1]));
+                    daily_cache.setClose(Double.parseDouble(tchlov[1]));
                     daily_cache.setVolume(Long.parseLong(tchlov[2]));
 
                 } //end if isNumeric
@@ -174,8 +175,8 @@ public class NetFonds {
             daily_cache.setH_id(bar_id);
             ml.mongo_store_bar(daily_cache, false);
 
-            minute_cache.initDay();
-            daily_cache.initDay();
+            minute_cache.init();
+            daily_cache.init();
         }
 
     } //end process nf csv

@@ -149,8 +149,8 @@ public class GData2 {
                             ml.mongo_store_bar(day_quote, false);
                         } //end if curday
                         s_curDay = day;
-                        min_quote.initDay(); //init the header for new day
-                        day_quote.initDay();
+                        min_quote.init(); //init the header for new day
+                        day_quote.init();
                     } //end if day check
 
 
@@ -171,19 +171,19 @@ public class GData2 {
 
                 //build the minute quote
                 min_quote.setDay(date);
-                min_quote.setOpen(tchlov[4]);
-                min_quote.setHigh(tchlov[2]);
-                min_quote.setLow(tchlov[3]);
-                min_quote.setClose(tchlov[1]);
+                min_quote.setOpen(Double.parseDouble(tchlov[4]));
+                min_quote.setHigh(Double.parseDouble(tchlov[2]));
+                min_quote.setLow(Double.parseDouble(tchlov[3]));
+                min_quote.setClose(Double.parseDouble(tchlov[1]));
                 min_quote.setVolume(Long.parseLong(tchlov[5]));
 
 
                 //build the daily quote
                 day_quote.setDay(day);
-                day_quote.setOpen(tchlov[4]);
-                day_quote.setHigh(tchlov[2]);
-                day_quote.setLow(tchlov[3]);
-                day_quote.setClose(tchlov[1]);
+                day_quote.setOpen(Double.parseDouble(tchlov[4]));
+                day_quote.setHigh(Double.parseDouble(tchlov[2]));
+                day_quote.setLow(Double.parseDouble(tchlov[3]));
+                day_quote.setClose(Double.parseDouble(tchlov[1]));
                 day_quote.setVolume(Long.parseLong(tchlov[5]));
 
 
@@ -195,7 +195,7 @@ public class GData2 {
 
                     //Store the minute bar
                     ml.mongo_store_bar(min_quote, false);
-                    min_quote.initDay();
+                    min_quote.init();
                 }
 
             } //end b_header

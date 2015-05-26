@@ -13,29 +13,31 @@ public class YMUtils {
     static YMUtils ymutil = new YMUtils();
 
     public static void main(String[] args) throws Exception {
-        String tzid = "CET";
-        TimeZone tz = TimeZone.getTimeZone(tzid);
-
-        String est = "EST";
-        TimeZone etz = TimeZone.getTimeZone(est);
-
-        long cet = System.currentTimeMillis();  // supply your timestamp here
+       // long cet = System.currentTimeMillis();  // supply your timestamp here
         //long cet = "201505042130";
-        Date d = new Date(cet);
+        Date d = ymutil.dateFromString("201505202055","CET");
 
         // timezone symbol (z) included in the format pattern for debug
-        DateFormat format = new SimpleDateFormat("yy/M/dd hh:mm a z");
+        DateFormat format = new SimpleDateFormat("yyyyMMddhhmm z");
 
+        System.out.println("input="+d.toString());
+
+        String etzid = "CDT";
+        TimeZone etz = TimeZone.getTimeZone(etzid);
+
+        String ctzid = "EST";
+        TimeZone ctz = TimeZone.getTimeZone(ctzid);
+
+        d = ymutil.shiftTimeZone(d,ctz,etz );
         // format date in default timezone
-        System.err.println(format.format(d));
+        //System.err.println(format.format(d));
 
         // format date in target timezone
-        format.setTimeZone(tz);
-        System.err.println(format.format(d));
+        format.setTimeZone(ctz);
+        System.err.println("source=" + format.format(d));
 
         format.setTimeZone(etz);
-        System.err.println(format.format(d));
-
+        System.err.println("target="+format.format(d));
 
     } //end main
 
@@ -93,11 +95,7 @@ public class YMUtils {
         return output;
     }//end implode array
 
-    public String shiftTimeZone(String dateString, TimeZone sourceTimeZone, TimeZone targetTimeZone) throws ParseException {
-
-        DateFormat df = new SimpleDateFormat("yyyyMMddhhmm");
-        Date date = df.parse(dateString);
-
+    private Date shiftTimeZone(Date date, TimeZone sourceTimeZone, TimeZone targetTimeZone) {
         Calendar sourceCalendar = Calendar.getInstance();
         sourceCalendar.setTime(date);
         sourceCalendar.setTimeZone(sourceTimeZone);
@@ -108,9 +106,29 @@ public class YMUtils {
         }
         targetCalendar.setTimeZone(targetTimeZone);
 
-        return targetCalendar.getTime().toString();
-       // DateFormat format = new SimpleDateFormat("ddMMyyhhmmss");
-       // return format.format(targetCalendar).toString();
+        return targetCalendar.getTime();
     }
 
+    public Date dateFromString(String sdate,String zone){
+
+        if (sdate.length() == 8){
+           // dfm = new SimpleDateFormat("yyyyMMdd");
+            sdate += "0000";
+            zone = "GMT-0:00";  //override the timezone since it's a day
+        }
+
+        DateFormat dfm = new SimpleDateFormat("yyyyMMddHHmm");
+
+        dfm.setTimeZone(TimeZone.getTimeZone(zone));//Specify your timezone
+        Date date = null;
+
+
+        try {
+            date = (Date)dfm.parse(sdate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+
+    }
 } //end YMUtils

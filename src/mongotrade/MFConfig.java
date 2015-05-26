@@ -31,6 +31,7 @@ public class MFConfig {
 
     static MFConfig config = new MFConfig();
 
+
     public static void main(String[] args) throws UnknownHostException, FileNotFoundException {
         out.println(config.checkConfig());
         try {

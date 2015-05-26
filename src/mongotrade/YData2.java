@@ -90,8 +90,8 @@ public class YData2 {
         MongoLayerRT ml = new MongoLayerRT();
         List<String> bodyList = new ArrayList<String>(); // or LinkedList<String>();
 
-        min_quote.initDay();
-        day_quote.initDay();
+        min_quote.init();
+        day_quote.init();
 
         //process the csv file begining with the header
         boolean b_header = true;
@@ -122,7 +122,10 @@ public class YData2 {
                     //qheader.setTickerName(section[1].toString());
                 }
                 min_quote.setSource("Y");
+                min_quote.setTz("GMT-4:00");
                 day_quote.setSource("Y");
+                day_quote.setTz("GMT-4:00");
+
                 //end load header info
 
 
@@ -150,17 +153,21 @@ public class YData2 {
                         s_curDay = day;
                     } //end current day check
 
-                    min_quote.setOpen(section[4]);
-                    min_quote.setHigh(section[2]);
-                    min_quote.setLow(section[3]);
-                    min_quote.setClose(section[1]);
+                    min_quote.setOpen(Double.parseDouble(section[4]));
+                    min_quote.setHigh(Double.parseDouble(section[2]));
+                    min_quote.setLow(Double.parseDouble(section[3]));
+                    min_quote.setClose(Double.parseDouble(section[1]));
                     min_quote.setVolume(Long.parseLong(section[5]));
+                    min_quote.setDay(date);
+                    min_quote.setType("M");
 
-                    day_quote.setOpen(section[4]);
-                    day_quote.setHigh(section[2]);
-                    day_quote.setLow(section[3]);
-                    day_quote.setClose(section[1]);
+                    day_quote.setOpen(Double.parseDouble(section[4]));
+                    day_quote.setHigh(Double.parseDouble(section[2]));
+                    day_quote.setLow(Double.parseDouble(section[3]));
+                    day_quote.setClose(Double.parseDouble(section[1]));
                     day_quote.setVolume(Long.parseLong(section[5]));
+                    day_quote.setDay(day);
+                    day_quote.setType("D");
 
                     //build the _id for the data bar.
                     String bar_id = min_quote.getTicker()+":"+ min_quote.getSource()+":"+date;
@@ -168,7 +175,7 @@ public class YData2 {
 
                     //Store every minute bar we build
                     ml.mongo_store_bar(min_quote,false);
-                    min_quote.initDay();
+                    min_quote.init();
 
                 } //end empty line check
 
