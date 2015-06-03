@@ -4,11 +4,10 @@ package mongotrade;
  * and open the template in the editor.
  */
 
-        import com.tictactec.ta.lib.Core;
-        import com.tictactec.ta.lib.MAType;
-        import com.tictactec.ta.lib.MInteger;
-        import com.tictactec.ta.lib.RetCode;
-        import java.io.IOException;
+import com.tictactec.ta.lib.Core;
+import com.tictactec.ta.lib.MAType;
+import com.tictactec.ta.lib.MInteger;
+import com.tictactec.ta.lib.RetCode;
 
 /**
  *

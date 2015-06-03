@@ -10,14 +10,11 @@ package mongotrade;
 
 import com.mongodb.*;
 
-import java.beans.IntrospectionException;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.regex.Pattern;
 
 public class MongoLayerRT {
    // static MongoClient mongo = null;
@@ -34,7 +31,7 @@ public class MongoLayerRT {
 
 
         //collection = mgr.checkConnection("gspc");
-        BarArray ba = mgr.getData("sso", 10, "M5");
+        BarArray ba = mgr.getData("sso", 10, "M15");
 
         //System.out.println(ba.getDateArray().toString());
         ///@@
@@ -195,7 +192,7 @@ public class MongoLayerRT {
 
         //Do we need to rollup the data
         if(!rollup.equals("")){
-            rollupBars(quote,rollup);
+            quote = rollupBars(quote,rollup);
         }
         return quote;
 
@@ -208,8 +205,9 @@ public class MongoLayerRT {
     }//end getDateFromId
 
     //time series management. Rollup minute bars into
-    //higher group ie 5 min, 15 min
-    private void rollupBars(BarArray minutes, String target){
+    //higher group ie 5 min, 15 min,
+    // 30 and 60 min bars require more work
+    private BarArray rollupBars(BarArray minutes, String target){
         BarCache cache = new BarCache();
         BarArray newBars = new BarArray();
         cache.init();
@@ -222,11 +220,13 @@ public class MongoLayerRT {
         double[] close = minutes.getCloseArray();
         double[] vol = minutes.getVolArray();
 
-        int inc = Integer.parseInt(target.replace("M",""));
+        int inc = Integer.parseInt(target.replace("M", ""));
         long c_date = 0; //current date
         String sVol = "";
         long lDay = 0;
-        int inc_ctr = 1;
+
+        int mod = -1;
+        int mins = -1;
 
         //date variables to prevent mixing days if dealing with multiday results
         String c_Day = "";  //curr day
@@ -235,26 +235,27 @@ public class MongoLayerRT {
         //loop thru the array grouping the bars by the inc variables
         //be careful not to mix days!
         for(int i = 0; i < date.length; i++) {
-            c_Day = date[i].substring(0,8);
-            System.out.println("c_Day="+date[i]);
-            if (l_Day.equals("first")){
-                l_Day = c_Day;
-            }
-
-            if(c_date == 0) { //first run set things up
-                cache.setDay(date[i]);
-            }
-
+            c_Day = date[i].substring(0, 8);
             c_date = Long.parseLong(date[i]);
-          //  System.out.println("i="+i+" cDate="+c_date+" Cache="+ cache.getDay());
-            if (!c_Day.equals(l_Day)) {
-                System.out.println("roll day here");
+            mins = Integer.parseInt(date[i].substring(10));
+            if(mins == 0){mins=60;}
 
+            mod = mins % inc;
+
+            if(i == 0) { //first run set things up
+                cache.setDay(date[i]);
                 l_Day = c_Day;
             }
 
-            if (inc_ctr >= inc){  //add to bar chache
-                System.out.println("should roll here");
+            if (!c_Day.equals(l_Day)) {
+                //System.out.println("roll day here");
+                //cache.setDay(date[i]);
+                l_Day = c_Day;
+                mod = 0;  //force mod to ensure last bar of old day is rolled
+            }
+
+            if((mod == 0) && (i !=0)){
+                //System.out.println("should roll here");
                 //move cache to new array
                 newBars.addDate(cache.getDay());
                 newBars.addOpen(cache.getOpen());
@@ -263,11 +264,10 @@ public class MongoLayerRT {
                 newBars.addClose(cache.getClose());
                 newBars.addVolume(cache.getVolume());
                 cache.init();
-                c_date = 0;
-                inc_ctr =0;
+                cache.setDay(date[i]);
             }
 
-            //cache.setOpen(String.valueOf(open[i]));
+          //  System.out.println("caching -> i="+i+" cDate="+c_date+" Cache="+ cache.getDay());
             cache.setOpen(open[i]);
             cache.setHigh(high[i]);
             cache.setLow(low[i]);
@@ -275,21 +275,19 @@ public class MongoLayerRT {
 
             sVol = String.valueOf((int)vol[i]);
             cache.setVolume(Long.parseLong(sVol));
-            inc_ctr ++;
-
         } //end for date
 
         //do not abandon partial last roll
 
-        System.out.println("rolling last minutes");
-        System.out.println("cDate=" + c_date + " Cache" + cache.getDay());
+        //System.out.println("rolling last minutes");
+        //System.out.println("cDate=" + c_date + " Cache" + cache.getDay());
         newBars.addDate(cache.getDay());
-        //newBars.addOpen(Double.parseDouble(cache.getOpen()));
         newBars.addOpen(cache.getOpen());
-
         newBars.addHigh(cache.getHigh());
         newBars.addLow(cache.getLow());
         newBars.addClose(cache.getClose());
         newBars.addVolume(cache.getVolume());
+
+        return newBars;
     }
 } //end class

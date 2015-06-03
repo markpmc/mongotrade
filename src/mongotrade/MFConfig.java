@@ -10,7 +10,6 @@ import java.util.Properties;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.String.valueOf;
-import static java.lang.System.load;
 import static java.lang.System.out;
 
 /**

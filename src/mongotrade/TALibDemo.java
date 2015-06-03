@@ -1,13 +1,9 @@
 package mongotrade;
 
-import com.mongodb.*;
-
 import com.tictactec.ta.lib.Core;
 import com.tictactec.ta.lib.MAType;
 import com.tictactec.ta.lib.MInteger;
 import com.tictactec.ta.lib.RetCode;
-
-import java.net.UnknownHostException;
 
 /**
  * Created by mark.mcclellan on 5/16/2015.
@@ -37,7 +33,7 @@ public class TALibDemo {
 
     public TALibDemo() {
         //initialize everything required for holding data
-        BarArray ba = ml.getData("dji", 3, "M1");
+        BarArray ba = ml.getData("dji", 10, "M5");
 
         inDate = ba.getDateArray();
         inOpen = ba.getOpenArray();
@@ -54,17 +50,18 @@ public class TALibDemo {
         outBegIdx = new MInteger();
         outNbElement = new MInteger();
 
+        //nice for debuggin
+        for (int k=0; k<inDate.length; k++)  // display data
+            System.out.println(k+". "+inDate[k]+","+inOpen[k]+","+inHigh[k]+","+inLow[k]+","+inClose[k]+","+inVol[k]);
+
         //keeping it simple here...
         //simpleMovingAverageCall();
-        candleScan();
-        dojiScan();
+        //candleScan();
+        //dojiScan();
+        williamsMFI();
     }
 
 
-    private void getData4Symbol(String symbol){
-
-
-    }
     /**
      * resets the arrays used in this application since they are only
      * initialized once
@@ -89,22 +86,7 @@ public class TALibDemo {
 
     }
 
-    private void showDefaultTALIBOutput(){
-        System.out.println("Printing the default TALIB output to the screen");
-        System.out.println("lookback = " + lookback + ", outBegIdx=" + outBegIdx.value
-                + ", outNbElement=" + outNbElement.value + "\nretCode=" + retCode);
-        System.out.println("\nClose  \t" + "Indicator");
-/*        int j=0;
-        for (int i = 0; i < output.length; i++) {
-            System.out.println(inClose[i] + ",\t " + output[i]);
-        }
-*/
-        for (int i = 0; i < outNbElement.value; i++) {
-            if (output[i] != 0)
-                System.out.println(inDate[outBegIdx.value+i]+" integer ["+i+"] is "+output[i]);
-        }
 
-    }
 
 
     public void simpleMovingAverageCall() {
@@ -116,13 +98,16 @@ public class TALibDemo {
         //At least that's true for movingAverage(...)
         lookback = lib.movingAverageLookback(10, MAType.Sma);
 
-        System.out.println("Starting everthing off...");
-        System.out.println("Lookback=" + lookback);
-        System.out.println("outBegIdx.value=" + outBegIdx.value);
-        System.out.println("outNbElement.value=" + outNbElement.value);
+        System.out.println("Simple moving average...");
+       // System.out.println("Lookback=" + lookback);
+       // System.out.println("outBegIdx.value=" + outBegIdx.value);
+       // System.out.println("outNbElement.value=" + outNbElement.value);
         retCode = lib.movingAverage(0, inClose.length - 1, inClose, lookback + 1, MAType.Sma, outBegIdx, outNbElement, output);
 
-        showDefaultTALIBOutput();
+        for (int i = 0; i < outNbElement.value; i++) {
+            if (output[i] != 0)
+                System.out.println(inDate[outBegIdx.value+i]+" integer ["+i+"] is "+output[i]);
+        }
     }
 
     public void candleScan(){
@@ -132,15 +117,12 @@ public class TALibDemo {
         int endIdx = inOpen.length-1;
         int outInteger = inOpen.length;
 
-        for (int k=0; k<inDate.length; k++)  // display data
-            System.out.println(k+". "+inDate[k]+","+inOpen[k]+","+inHigh[k]+","+inLow[k]+","+inClose[k]);
-
         //RetCode ret = lib.cdlEngulfing(startIdx, endIdx, inOpen, inHigh, inLow, inClose, outBegIdx, outNBElement, outInteger);
         RetCode ret = lib.cdlEngulfing(startIdx,endIdx,inOpen,inHigh,inLow,inClose,outBegIdx,outNBElement,outputInt);
-        System.out.println("ret to string is " +ret.toString());
-        System.out.println("out beg idx is "+outBegIdx.value);
-        System.out.println("out NB element is "+outNBElement.value);
-        System.out.println("out integer length is " + outputInt.length);
+        System.out.println("engulfing candle scan " +ret.toString());
+       // System.out.println("out beg idx is "+outBegIdx.value);
+      //  System.out.println("out NB element is "+outNBElement.value);
+       // System.out.println("out integer length is " + outputInt.length);
 
         for (int i = 0; i < outNBElement.value; i++) {
             if (outputInt[i] != 0)
@@ -156,15 +138,35 @@ public class TALibDemo {
         int outInteger = inOpen.length;
 
         //RetCode ret = lib.cdlEngulfing(startIdx,endIdx,inOpen,inHigh,inLow,inClose,outBegIdx,outNBElement,outputInt);
-        RetCode ret = lib.cdlDoji(startIdx,endIdx,inOpen,inHigh,inLow,inClose,outBegIdx,outNBElement,outputInt);
-        System.out.println("ret to string is " +ret.toString());
-        System.out.println("out beg idx is "+outBegIdx.value);
-        System.out.println("out NB element is "+outNBElement.value);
-        System.out.println("out integer length is "+ outputInt.length);
+        RetCode ret = lib.cdlDoji(startIdx, endIdx, inOpen, inHigh, inLow, inClose, outBegIdx, outNBElement, outputInt);
+        System.out.println("doji candle scan " +ret.toString());
+        //System.out.println("out beg idx is "+outBegIdx.value);
+       // System.out.println("out NB element is "+outNBElement.value);
+       // System.out.println("out integer length is "+ outputInt.length);
 
         for (int i = 0; i < outNBElement.value; i++) {
             if (outputInt[i] != 0)
                 System.out.println(inDate[startIdx+outBegIdx.value+i]+" integer ["+i+"] is "+outputInt[i]);
+        }
+
+    }
+
+    private void williamsMFI(){
+        //range      High-Low
+        //divided by Volume
+        float[] mfi = new float[inVol.length];
+
+        for (int j = 0; j < inVol.length; j++) {
+           mfi[j] = 0;
+        }
+
+        for (int i = 0; i < inVol.length; i++) {
+            //System.out.println("Vol=" + inVol[i]);
+           if(inVol[i] != 0) {
+               mfi[i] = (float) (inHigh[i] - inLow[i]);
+               mfi[i] = (float) (mfi[i] / inVol[i]);
+               System.out.println("mfi=" + mfi[i] + "vol=" + inVol[i]);
+           }
         }
 
     }

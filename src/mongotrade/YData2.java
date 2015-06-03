@@ -153,6 +153,12 @@ public class YData2 {
                         s_curDay = day;
                     } //end current day check
 
+                    // adjust data:
+                    //open = open * adjClose / close;
+                    //high = high * adjClose / close;
+                    //low = low * adjClose / close;
+
+
                     min_quote.setOpen(Double.parseDouble(section[4]));
                     min_quote.setHigh(Double.parseDouble(section[2]));
                     min_quote.setLow(Double.parseDouble(section[3]));

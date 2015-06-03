@@ -4,16 +4,6 @@ package mongotrade;
  * Created by mark.mcclellan on 5/21/2015.
  */
 
-import com.mongodb.DBCollection;
-import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
-import com.tictactec.ta.lib.Core;
-import com.tictactec.ta.lib.MAType;
-import com.tictactec.ta.lib.MInteger;
-import com.tictactec.ta.lib.RetCode;
-
-import java.net.UnknownHostException;
-
 public class MFCandleScan {
     MongoLayerRT ml = new MongoLayerRT();
 /*
