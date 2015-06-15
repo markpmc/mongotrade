@@ -17,6 +17,7 @@ import java.util.List;
 public class YData2 {
     private final String USER_AGENT = "Mozilla/5.0";
     static YData2 http = new YData2();
+    static MongoLayerRT ml = new MongoLayerRT();
 
     public static void main(String[] args) throws Exception {
         //String symbol = "^gspc";
@@ -39,6 +40,10 @@ public class YData2 {
         //System.out.println("result=" + result);
 
         http.process_yahoo_csv(result);
+
+        //export the data as 5 & 30 min bars for GT
+        ml.GTexport(ticker,20,"M5");
+        ml.GTexport(ticker, 20, "M30");
 
     } //end fetchData
 
@@ -87,7 +92,6 @@ public class YData2 {
 
         QuoteBody qbody = new QuoteBody();
         YMUtils ymutil = new YMUtils();
-        MongoLayerRT ml = new MongoLayerRT();
         List<String> bodyList = new ArrayList<String>(); // or LinkedList<String>();
 
         min_quote.init();
@@ -173,7 +177,7 @@ public class YData2 {
                     day_quote.setClose(Double.parseDouble(section[1]));
                     day_quote.setVolume(Long.parseLong(section[5]));
                     day_quote.setDay(day);
-                    day_quote.setType("D");
+                    day_quote.setType("S"); //S for Summary
 
                     //build the _id for the data bar.
                     String bar_id = min_quote.getTicker()+":"+ min_quote.getSource()+":"+date;

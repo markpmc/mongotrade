@@ -10,6 +10,7 @@ package mongotrade;
 
 import com.mongodb.*;
 
+import java.io.*;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,18 +22,21 @@ public class MongoLayerRT {
     private static DBCollection collection = null;
     private static DB db = null;
     private static String database = "quotes";
+    private static String exPath = "";
+
     static String s_curDay = "";
 
     MFConfig config = new MFConfig();
-
+    static MongoLayerRT mgr = new MongoLayerRT();
 
     public static void main(String[] args) throws UnknownHostException {
-        MongoLayerRT mgr = new MongoLayerRT();
+       // MongoLayerRT mgr = new MongoLayerRT();
 
 
         //collection = mgr.checkConnection("gspc");
-        BarArray ba = mgr.getData("sso", 10, "M15");
-
+        //BarArray ba = mgr.getData("gspc", 10, "M15");
+        //mgr.export2Txt("gspc","M15",ba);
+        mgr.GTexport("^VIX",10,"M30");
         //System.out.println(ba.getDateArray().toString());
         ///@@
         // Delete All documents before running example again
@@ -61,7 +65,11 @@ public class MongoLayerRT {
         if(db == null){
             config.checkConfig();
             db = (new MongoClient(config.mHost, config.mPort)).getDB(database);
+            exPath = config.exPath;
         }
+
+        //System.out.println("collection=" + collection);
+
         return db.getCollection(collection);
     }
 
@@ -113,9 +121,7 @@ public class MongoLayerRT {
                  System.out.println(metaQ.toString() + metaD.toString());
 
                 //store the meta data bar data
-                collection.update(metaQ, metaD,true,false);
-
-
+                collection.update(metaQ, metaD, true, false);
 
 
     } //end mongo_store bar
@@ -289,5 +295,64 @@ public class MongoLayerRT {
         newBars.addVolume(cache.getVolume());
 
         return newBars;
+    } //end rollupBars
+
+    public void export2Txt(String symbol,String period, BarArray bars) {
+        YMUtils utils = new YMUtils();
+        //build the filename
+        String fname = exPath+symbol +"_"+period+".txt";
+
+        //Filename Smybol_timeframe.txt     IBM_10min.txt
+        //yyyy-MM-dd hh:mm:ss
+
+        //0: open
+        //1: high
+        //2: low
+        //3: close
+        //4: volume
+        //5: datetime
+        System.out.println("exporting: " +fname);
+
+        //remove file if it exists
+        try{
+            File oldFile = new File(fname);
+            if (oldFile.exists()){
+                oldFile.delete();
+            }
+        }catch(Exception e){
+            // if any error occurs
+            e.printStackTrace();
+        }
+
+        //get the data
+        String[] date = bars.getDateArray();
+        double[] open = bars.getOpenArray();
+        double[] high = bars.getHighArray();
+        double[] low = bars.getLowArray();
+        double[] close = bars.getCloseArray();
+        double[] vol = bars.getVolArray();
+
+        String f_date = "";
+
+        for(int i = 0; i < date.length; i++) {
+
+            //format the date
+            f_date = utils.formatExportDate(date[i]);
+            try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fname, true)))) {
+                out.println(open[i]+"\t"+high[i]+"\t"+low[i]+"\t"+close[i]+"\t"+vol[i]+"\t"+f_date+"\n");
+            } catch (IOException e) {
+                //exception handling left as an exercise for the reader
+            }
+        } //end for date.length
+    } //end export2Txt
+
+    //GTexport("gspc",10,"M15")
+    public void GTexport(String symbol,int days,String period){
+        //Get the data
+        symbol = symbol.replaceAll("^[^a-zA-Z0-9_-]", "").toLowerCase();
+        BarArray ba = mgr.getData(symbol, days, period);
+
+        //write the file
+        mgr.export2Txt(symbol,period,ba);
     }
 } //end class

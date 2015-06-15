@@ -23,6 +23,7 @@ public class MFConfig {
     public static int mPort = 0; //27017
     private static DB db = null;
     private static String database = "mf_config";
+    public static String exPath="";
 
     //symbol variables
     static String[] symbols = null;
@@ -70,6 +71,7 @@ public class MFConfig {
 
         mHost = props.getProperty("host");
         mPort = parseInt(props.getProperty("port"));
+        exPath = props.getProperty("expath");
 
         //System.out.println("loaded host:" + mHost + ":" + mPort);
         return true;
@@ -122,7 +124,7 @@ public class MFConfig {
         while (curssc.hasNext()) {
 
             DBObject e = curssc.next();
-            // System.out.println(e.get("Symbols")) ;
+            System.out.println(e.get("Symbols")) ;
             // System.out.println(e.get("Source")) ;
             BasicDBList symList = (BasicDBList) e.get("Symbols");
             BasicDBList srcList = (BasicDBList) e.get("Source");

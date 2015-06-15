@@ -15,7 +15,7 @@ public class YMUtils {
     public static void main(String[] args) throws Exception {
        // long cet = System.currentTimeMillis();  // supply your timestamp here
         //long cet = "201505042130";
-        Date d = ymutil.dateFromString("201505202055","CET");
+     /*   Date d = ymutil.dateFromString("201505202055","CET");
 
         // timezone symbol (z) included in the format pattern for debug
         DateFormat format = new SimpleDateFormat("yyyyMMddhhmm z");
@@ -38,7 +38,9 @@ public class YMUtils {
 
         format.setTimeZone(etz);
         System.err.println("target="+format.format(d));
+     */
 
+        System.out.println("201505042130 is:" + ymutil.formatExportDate("201505042130"));
     } //end main
 
     public String unixtodate (long unixSeconds) {
@@ -130,5 +132,20 @@ public class YMUtils {
         }
         return date;
 
+    } //end dateFromString
+
+    public String formatExportDate(String sdate){
+        //format 201506030830 to yyyy-MM-dd hh:mm:ss
+        SimpleDateFormat fromUser = new SimpleDateFormat("yyyyMMddHHmm");
+        SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try {
+
+            sdate = myFormat.format(fromUser.parse(sdate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return sdate;
     }
 } //end YMUtils

@@ -74,7 +74,7 @@ public class CandlestickChart {
             e.printStackTrace();
         }
       */
-        BarArray ba = ml.getData("nqm15.cme", 7, "M1");
+        BarArray ba = ml.getData("sso", 5, "M5");
 
         inDate = ba.getDateArray();
         inOpen = ba.getOpenArray();
@@ -136,7 +136,7 @@ public class CandlestickChart {
 */
 
         // 5. Skip week-ends on the date axis
-        ((DateAxis) plot.getDomainAxis()).setTimeline(SegmentedTimeline.newMondayThroughFridayTimeline());
+      //  ((DateAxis) plot.getDomainAxis()).setTimeline(SegmentedTimeline.newMondayThroughFridayTimeline());
 
         // 6. No volume drawn
         ((CandlestickRenderer) plot.getRenderer()).setDrawVolume(false);

@@ -95,7 +95,7 @@ public class BarCache {
     }
     public void setTicker(String ticker) {
 
-        this.ticker = ticker.replaceAll("^[^a-zA-Z0-9_-]", "");
+        this.ticker = ticker.replaceAll("^[^a-zA-Z0-9_-]", "").toLowerCase();
     }
     public String getSource() {
         return this.source;

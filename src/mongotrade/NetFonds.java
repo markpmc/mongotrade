@@ -152,7 +152,7 @@ public class NetFonds {
 
                     //build the daily bar
                     daily_cache.setDay(day);
-                    daily_cache.setType("D");
+                    daily_cache.setType("S");  //S for Summary
                     daily_cache.setOpen(Double.parseDouble(tchlov[1]));
                     daily_cache.setHigh(Double.parseDouble(tchlov[1]));
                     daily_cache.setLow(Double.parseDouble(tchlov[1]));
