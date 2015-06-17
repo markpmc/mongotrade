@@ -133,7 +133,7 @@ public class MongoLayerRT {
         BarArray quote = new BarArray();
         quote.init();
         String rollup = "";
-        bars = bars * -1;
+        bars = bars * -1;  //so we do date substraction later
 
         // type
         //D = daily,eod

@@ -40,7 +40,7 @@ public class YMUtils {
         System.err.println("target="+format.format(d));
      */
 
-        System.out.println("201505042130 is:" + ymutil.formatExportDate("201505042130"));
+        System.out.println("6/17/2015 is:" + ymutil.formatYEODDate("6/17/2015"));
     } //end main
 
     public String unixtodate (long unixSeconds) {
@@ -138,6 +138,21 @@ public class YMUtils {
         //format 201506030830 to yyyy-MM-dd hh:mm:ss
         SimpleDateFormat fromUser = new SimpleDateFormat("yyyyMMddHHmm");
         SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try {
+
+            sdate = myFormat.format(fromUser.parse(sdate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return sdate;
+    } //end formatExportDate
+
+    public String formatYEODDate(String sdate){
+        //format 201506030830 to yyyy-MM-dd hh:mm:ss
+        SimpleDateFormat fromUser = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat myFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 
         try {
 

@@ -147,7 +147,7 @@ public class YData2 {
                     if(s_curDay.equals("")) {s_curDay = day;}
 
                     //yahoo sends multiple day in the file.
-                    //check before we store the new quote
+/*                    //check before we store the new quote
                     if((!s_curDay.equals(day)) && (!s_curDay.equals(""))) {
                         //build the daily bar
                         day_quote.setH_id(day_quote.getTicker() + ":" + day_quote.getSource() + ":" + s_curDay);
@@ -156,7 +156,7 @@ public class YData2 {
                         ml.mongo_store_bar(day_quote, false);
                         s_curDay = day;
                     } //end current day check
-
+*/
                     // adjust data:
                     //open = open * adjClose / close;
                     //high = high * adjClose / close;
@@ -195,9 +195,9 @@ public class YData2 {
 
         //protect against stranding a daily update
         //build the daily bar
-        day_quote.setH_id(day_quote.getTicker() + ":" + day_quote.getSource() + ":" + day);
+ //       day_quote.setH_id(day_quote.getTicker() + ":" + day_quote.getSource() + ":" + day);
 
         //Store the daily bar
-        ml.mongo_store_bar(day_quote, false);
+//        ml.mongo_store_bar(day_quote, false);
     } //end process y csv
 } // end class

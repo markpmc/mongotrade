@@ -141,6 +141,7 @@ public class MFConfig {
 
     public void fetch() throws UnknownHostException {
         YData2 yhttp = new YData2();
+        YDataEOD yeod = new YDataEOD();
         GData2 ghttp = new GData2();
         NetFonds nhttp = new NetFonds();
 
@@ -156,6 +157,7 @@ public class MFConfig {
             try {
                 if (sources[ctr].toString().equals("yahoo")) {
                     yhttp.fetchData(str.toString());
+                    yeod.fetchData(str.toString());
                 } else if (sources[ctr].toString().equals("google")) {
                     ghttp.fetchDataG(str.toString());
                 } else if (sources[ctr].toString().equals("netfonds")) {
