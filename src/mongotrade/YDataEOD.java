@@ -25,17 +25,14 @@ public class YDataEOD {
     private final String USER_AGENT = "Mozilla/5.0";
     static YDataEOD http = new YDataEOD();
     static MongoLayerRT ml = new MongoLayerRT();
+    static MFConfig cfg = new MFConfig();
 
     public static void main(String[] args) throws Exception {
-        String symbol = "^GSPC";
-       // String symbol = "EURUSD=X";
+        String symbol = cfg.getSymbolString("yahoo");
         http.fetchData(symbol);
-
-
     } //end main
 
     public void fetchData(String ticker) throws Exception {
-        //http://ichart.finance.yahoo.com/table.csv?s=YHOO&a=06&b=9&c=1996&d=06&e=20&f=2010&g=d
         //http://download.finance.yahoo.com/d/quotes.csv?s=%40%5EDJI,GOOG&f=sd1ohgl1v&e=.csv
         String url1 = "http://download.finance.yahoo.com/d/quotes.csv?s=";
 
@@ -50,10 +47,15 @@ public class YDataEOD {
 
         http.process_yahoo_eod(result);
 
-        //export the data as 5 & 30 min bars for GT
-       // ml.GTexport(ticker,20,"M5");
-       // ml.GTexport(ticker, 20, "M30");
+        String[] sList = ticker.split(",", -1);
 
+        for(String s : sList){
+            if(!s.equals("")){
+                //export the data as 5 & 30 min bars for GT
+                ml.GTexport(s,20,"M5");
+                ml.GTexport(s, 20, "M30");
+            } //end blank symbol
+        } //end for symbol
     } //end fetchData
 
     // HTTP GET request
@@ -105,21 +107,23 @@ public class YDataEOD {
            // csvReader.readHeaders();
 
             while (csvReader.readRecord()) {
-                day_quote.setType("D");
-                day_quote.setSource("Y");
-                day_quote.setTicker(csvReader.get(0));
-                day_quote.setDay(ymutil.formatYEODDate(csvReader.get(1)));
-                day_quote.setOpen(Double.parseDouble(csvReader.get(2)));
-                day_quote.setHigh(Double.parseDouble(csvReader.get(3)));
-                day_quote.setLow(Double.parseDouble(csvReader.get(4)));
-                day_quote.setClose(Double.parseDouble(csvReader.get(5)));
-                day_quote.setVolume(Double.parseDouble(csvReader.get(6)));
+                if (!csvReader.get(1).equals("N/A")) {  //skip an empty data row
+                    day_quote.setType("D");
+                    day_quote.setSource("Y");
+                    day_quote.setTicker(csvReader.get(0));
+                    day_quote.setDay(ymutil.formatYEODDate(csvReader.get(1)));
+                    day_quote.setOpen(Double.parseDouble(csvReader.get(2)));
+                    day_quote.setHigh(Double.parseDouble(csvReader.get(3)));
+                    day_quote.setLow(Double.parseDouble(csvReader.get(4)));
+                    day_quote.setClose(Double.parseDouble(csvReader.get(5)));
+                    day_quote.setVolume(Double.parseDouble(csvReader.get(6)));
 
-                day = day_quote.getDay().substring(0,8);
-                day_quote.setH_id(day_quote.getTicker() + ":" + day_quote.getSource() + ":" + day );
+                    day = day_quote.getDay().substring(0, 8);
+                    day_quote.setH_id(day_quote.getTicker() + ":" + day_quote.getSource() + ":" + day);
 
-                //Store the daily bar
-                ml.mongo_store_bar(day_quote, false);
+                    //Store the daily bar
+                    ml.mongo_store_bar(day_quote, false);
+                }//end if N/A
             } //end while
 
         } catch (IOException e) {

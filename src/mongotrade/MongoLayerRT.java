@@ -354,5 +354,64 @@ public class MongoLayerRT {
 
         //write the file
         mgr.export2Txt(symbol,period,ba);
-    }
+    } //GTexport
+
+    public void CSVexport(String symbol,int days,String period){
+        //Get the data
+        symbol = symbol.replaceAll("^[^a-zA-Z0-9_-]", "").toLowerCase();
+        BarArray ba = mgr.getData(symbol, days, period);
+
+        //write the file
+        mgr.exportCSV(symbol,period,ba);
+    } //CSVexport
+
+    public void exportCSV(String symbol,String period, BarArray bars) {
+        YMUtils utils = new YMUtils();
+        //build the filename
+        String fname = exPath+symbol +"_"+period+".csv";
+
+        //Filename Smybol_timeframe.txt     IBM_10min.txt
+        //yyyy-MM-dd hh:mm:ss
+
+        //0: open
+        //1: high
+        //2: low
+        //3: close
+        //4: volume
+        //5: datetime
+        System.out.println("exporting: " +fname);
+
+        //remove file if it exists
+        try{
+            File oldFile = new File(fname);
+            if (oldFile.exists()){
+                oldFile.delete();
+            }
+        }catch(Exception e){
+            // if any error occurs
+            e.printStackTrace();
+        }
+
+        //get the data
+        String[] date = bars.getDateArray();
+        double[] open = bars.getOpenArray();
+        double[] high = bars.getHighArray();
+        double[] low = bars.getLowArray();
+        double[] close = bars.getCloseArray();
+        double[] vol = bars.getVolArray();
+
+        String f_date = "";
+
+        for(int i = 0; i < date.length; i++) {
+
+            //format the date
+            f_date = utils.formatExportDate(date[i]);
+            try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fname, true)))) {
+                out.println(symbol +","+open[i]+","+high[i]+","+low[i]+","+close[i]+","+vol[i]+","+f_date+"\n");
+            } catch (IOException e) {
+                //exception handling left as an exercise for the reader
+            }
+        } //end for date.length
+    } //end exportCSV
+
 } //end class

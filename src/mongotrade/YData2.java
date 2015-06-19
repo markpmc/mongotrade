@@ -41,9 +41,9 @@ public class YData2 {
 
         http.process_yahoo_csv(result);
 
-        //export the data as 5 & 30 min bars for GT
-        ml.GTexport(ticker,20,"M5");
-        ml.GTexport(ticker, 20, "M30");
+        //export the data as 5 & 30 min bars in CSV
+        ml.CSVexport (ticker,20,"M5");
+        ml.CSVexport(ticker, 20, "M30");
 
     } //end fetchData
 

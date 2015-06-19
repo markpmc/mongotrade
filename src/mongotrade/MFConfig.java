@@ -26,8 +26,8 @@ public class MFConfig {
     public static String exPath="";
 
     //symbol variables
-    static String[] symbols = null;
-    static String[] sources = null;
+    public static String[] symbols = null;
+    public static String[] sources = null;
 
     static MFConfig config = new MFConfig();
 
@@ -43,6 +43,26 @@ public class MFConfig {
         //config.removeSymbol("^VIX");
     } //end main
 
+    public String getSymbolString(String src){
+        String symlist = "";
+        if(symbols == null){
+            config.checkConfig();
+            try {
+                config.loadConfig();
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            } //end try
+        } //end symbols
+        int ctr = 0;
+        for (Object str : sources) {
+            if (valueOf(str).equals(src)){
+                symlist = symlist + "," + symbols[ctr].toString();
+            }
+            ctr++;
+        } //end for
+
+        return symlist;
+    } //end getSymbolString
     private static DBCollection checkConnection(String collection) throws UnknownHostException{
         if(db == null){
             config.checkConfig();
@@ -157,7 +177,6 @@ public class MFConfig {
             try {
                 if (sources[ctr].toString().equals("yahoo")) {
                     yhttp.fetchData(str.toString());
-                    yeod.fetchData(str.toString());
                 } else if (sources[ctr].toString().equals("google")) {
                     ghttp.fetchDataG(str.toString());
                 } else if (sources[ctr].toString().equals("netfonds")) {
