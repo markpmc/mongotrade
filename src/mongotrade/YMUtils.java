@@ -48,7 +48,7 @@ public class YMUtils {
         //unixSeconds = 1400592600;
         Date date = new Date(unixSeconds*1000L); // *1000 is to convert seconds to milliseconds
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm"); // the format of your date
-        //sdf.setTimeZone(TimeZone.getTimeZone("GMT-4"));
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT-4"));
         String formattedDate = sdf.format(date);
        // System.out.println(formattedDate);
 		return formattedDate;
@@ -121,7 +121,7 @@ public class YMUtils {
 
         DateFormat dfm = new SimpleDateFormat("yyyyMMddHHmm");
 
-        dfm.setTimeZone(TimeZone.getTimeZone(zone));//Specify your timezone
+        //dfm.setTimeZone(TimeZone.getTimeZone(zone));//Specify your timezone
         Date date = null;
 
 
@@ -135,6 +135,9 @@ public class YMUtils {
     } //end dateFromString
 
     public String formatExportDate(String sdate){
+
+        if(sdate.length()< 12) {return sdate;}
+
         //format 201506030830 to yyyy-MM-dd hh:mm:ss
         SimpleDateFormat fromUser = new SimpleDateFormat("yyyyMMddHHmm");
         SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

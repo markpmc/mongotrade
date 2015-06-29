@@ -36,7 +36,7 @@ public class MongoLayerRT {
         //collection = mgr.checkConnection("gspc");
         //BarArray ba = mgr.getData("gspc", 10, "M15");
         //mgr.export2Txt("gspc","M15",ba);
-        mgr.GTexport("^VIX",10,"M30");
+        mgr.GTexport("gspc",2,"5M");
         //System.out.println(ba.getDateArray().toString());
         ///@@
         // Delete All documents before running example again
@@ -64,6 +64,7 @@ public class MongoLayerRT {
     public DBCollection checkConnection(String collection) throws UnknownHostException{
         if(db == null){
             config.checkConfig();
+            config.loadConfig();
             db = (new MongoClient(config.mHost, config.mPort)).getDB(database);
             exPath = config.exPath;
         }
@@ -78,7 +79,6 @@ public class MongoLayerRT {
         MongoLayerRT mlrt = new MongoLayerRT();
         YMUtils utils = new YMUtils();
         Date barDate = utils.dateFromString(bar.getDay(),bar.getTz());
-
 
         try {
             collection = mlrt.checkConnection(bar.getTicker());
@@ -335,14 +335,15 @@ public class MongoLayerRT {
         String f_date = "";
 
         for(int i = 0; i < date.length; i++) {
-
-            //format the date
-            f_date = utils.formatExportDate(date[i]);
-            try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fname, true)))) {
-                out.println(open[i]+"\t"+high[i]+"\t"+low[i]+"\t"+close[i]+"\t"+vol[i]+"\t"+f_date+"\n");
-            } catch (IOException e) {
-                //exception handling left as an exercise for the reader
-            }
+            //if (!date[i].equals("")) {
+                //format the date
+                f_date = utils.formatExportDate(date[i]);
+                try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fname, true)))) {
+                    out.println(open[i] + "\t" + high[i] + "\t" + low[i] + "\t" + close[i] + "\t" + vol[i] + "\t" + f_date + "\n");
+                } catch (IOException e) {
+                    //exception handling left as an exercise for the reader
+                } //end try
+            //} //end if date
         } //end for date.length
     } //end export2Txt
 

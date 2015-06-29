@@ -31,18 +31,29 @@ public class MFConfig {
 
     static MFConfig config = new MFConfig();
 
-
     public static void main(String[] args) throws UnknownHostException, FileNotFoundException {
-        out.println(config.checkConfig());
-        try {
-            config.loadConfig();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
-        config.fetch();
+        //out.println(config.checkConfig());
+        //try {
+        //    config.loadConfig();
+        //} catch (UnknownHostException e) {
+        //    e.printStackTrace();
+        //}
+
+
+        MFConfig cfg = new MFConfig();
+        cfg.fetch();
         //config.removeSymbol("^VIX");
     } //end main
 
+    public MFConfig(){
+       // MFConfig config = new MFConfig();
+        this.checkConfig();
+        try {
+            this.loadConfig();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+    }
     public String getSymbolString(String src){
         String symlist = "";
         if(symbols == null){
@@ -63,15 +74,18 @@ public class MFConfig {
 
         return symlist;
     } //end getSymbolString
-    private static DBCollection checkConnection(String collection) throws UnknownHostException{
+    private DBCollection checkConnection(String collection) throws UnknownHostException{
         if(db == null){
-            config.checkConfig();
+            this.checkConfig();
             db = (new MongoClient(mHost, mPort)).getDB(database);
         }
         return db.getCollection(collection);
     }
 
     public boolean checkConfig() {
+
+        //if(this.mHost != null) return true;
+
         File configFile = new File("config.properties");
         InputStream inputStream = null;
         try {
@@ -124,6 +138,7 @@ public class MFConfig {
     } //end connect
 
     public void loadConfig() throws UnknownHostException {
+        if(symbols != null) return;
 
         //query for a list of symbols
         DBCollection coll = connect();

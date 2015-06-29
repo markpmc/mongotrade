@@ -7,11 +7,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d927f5d9-ce6d-49d7-958b-84378c2e728e" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mongotrade/IntradayChart.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mongotrade/IntradayChart2.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mongotrade/MarketTimeLine.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mongotrade/TranslatingDataset.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/mongotrade/TranslatingFormat.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/config.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/mongotrade/mongotrade/QuoteBody.class" afterPath="$PROJECT_DIR$/out/production/mongotrade/mongotrade/QuoteBody.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/mongotrade/mongotrade/QuoteHeader.class" afterPath="$PROJECT_DIR$/out/production/mongotrade/mongotrade/QuoteHeader.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/mongotrade/mongotrade/Test.class" afterPath="$PROJECT_DIR$/out/production/mongotrade/mongotrade/Test.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/mongotrade/mongotrade/YMUtils.class" afterPath="$PROJECT_DIR$/out/production/mongotrade/mongotrade/YMUtils.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mongotrade/CandlestickChart.java" afterPath="$PROJECT_DIR$/src/mongotrade/CandlestickChart.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mongotrade/MFConfig.java" afterPath="$PROJECT_DIR$/src/mongotrade/MFConfig.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mongotrade/MongoLayerRT.java" afterPath="$PROJECT_DIR$/src/mongotrade/MongoLayerRT.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mongotrade/YData2.java" afterPath="$PROJECT_DIR$/src/mongotrade/YData2.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mongotrade/YDataEOD.java" afterPath="$PROJECT_DIR$/src/mongotrade/YDataEOD.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/mongotrade/YMUtils.java" afterPath="$PROJECT_DIR$/src/mongotrade/YMUtils.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/mongotrade.iml" afterPath="$PROJECT_DIR$/mongotrade.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="mongotrade.iws" />
@@ -39,56 +50,32 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MFConfig.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mongotrade/MFConfig.java">
+      <file leaf-file-name="TALibDemo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mongotrade/TALibDemo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.8965516">
-              <caret line="58" column="66" selection-start-line="58" selection-start-column="66" selection-end-line="58" selection-end-column="66" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="54" column="118" selection-start-line="53" selection-start-column="8" selection-end-line="54" selection-end-column="118" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MongoLayerRT.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BarArray.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mongotrade/BarArray.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MongoLayerRT.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/mongotrade/MongoLayerRT.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="358" column="16" selection-start-line="358" selection-start-column="16" selection-end-line="358" selection-end-column="16" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="YData2.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mongotrade/YData2.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="111" column="35" selection-start-line="111" selection-start-column="8" selection-end-line="111" selection-end-column="35" />
+            <state vertical-scroll-proportion="0.6035503">
+              <caret line="345" column="14" selection-start-line="345" selection-start-column="14" selection-end-line="345" selection-end-column="14" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BarCache.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mongotrade/BarCache.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="97" column="77" selection-start-line="97" selection-start-column="77" selection-end-line="97" selection-end-column="77" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="YDataEOD.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/mongotrade/YDataEOD.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.80991733">
-              <caret line="55" column="29" selection-start-line="55" selection-start-column="29" selection-end-line="55" selection-end-column="29" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -96,20 +83,20 @@
       <file leaf-file-name="YMUtils.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/mongotrade/YMUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="153" column="68" selection-start-line="153" selection-start-column="68" selection-end-line="153" selection-end-column="68" />
+            <state vertical-scroll-proportion="-3.137931">
+              <caret line="139" column="0" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TALibDemo.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/mongotrade/TALibDemo.java">
+      <file leaf-file-name="IntradayChart.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/mongotrade/IntradayChart.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="53" column="43" selection-start-line="53" selection-start-column="8" selection-end-line="53" selection-end-column="43" />
+              <caret line="40" column="46" selection-start-line="40" selection-start-column="46" selection-end-line="40" selection-end-column="46" />
               <folding>
-                <element signature="imports" expanded="false" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -160,16 +147,21 @@
         <option value="$PROJECT_DIR$/src/mongotrade/BarArray.java" />
         <option value="$PROJECT_DIR$/src/mongotrade/GData2.java" />
         <option value="$PROJECT_DIR$/src/mongotrade/TALibDemo.java" />
-        <option value="$PROJECT_DIR$/src/mongotrade/CandlestickChart.java" />
         <option value="$PROJECT_DIR$/src/mongotrade/SegmentedHighLowChartDemo.java" />
-        <option value="$PROJECT_DIR$/config.properties" />
         <option value="$PROJECT_DIR$/src/mongotrade/NetFonds.java" />
         <option value="$PROJECT_DIR$/src/mongotrade/BarCache.java" />
+        <option value="$PROJECT_DIR$/src/mongotrade/YDataEOD.java" />
+        <option value="$PROJECT_DIR$/src/mongotrade/TranslatingFormat.java" />
+        <option value="$PROJECT_DIR$/src/mongotrade/TranslatingDataset.java" />
+        <option value="$PROJECT_DIR$/src/mongotrade/IntradayChart2.java" />
+        <option value="$PROJECT_DIR$/src/mongotrade/YData2.java" />
+        <option value="$PROJECT_DIR$/src/mongotrade/CandlestickChart.java" />
+        <option value="$PROJECT_DIR$/src/mongotrade/MFConfig.java" />
+        <option value="$PROJECT_DIR$/src/mongotrade/MarketTimeLine.java" />
+        <option value="$PROJECT_DIR$/src/mongotrade/IntradayChart.java" />
+        <option value="$PROJECT_DIR$/config.properties" />
         <option value="$PROJECT_DIR$/src/mongotrade/YMUtils.java" />
         <option value="$PROJECT_DIR$/src/mongotrade/MongoLayerRT.java" />
-        <option value="$PROJECT_DIR$/src/mongotrade/YData2.java" />
-        <option value="$PROJECT_DIR$/src/mongotrade/MFConfig.java" />
-        <option value="$PROJECT_DIR$/src/mongotrade/YDataEOD.java" />
       </list>
     </option>
   </component>
@@ -187,10 +179,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="25" />
-    <option name="y" value="9" />
-    <option name="width" value="1317" />
-    <option name="height" value="709" />
+    <option name="x" value="-7" />
+    <option name="y" value="18" />
+    <option name="width" value="1378" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -218,6 +210,7 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="Scratches" />
       <pane id="Scope" />
       <pane id="ProjectPane">
@@ -270,23 +263,8 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mongotrade" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mongotrade" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -300,18 +278,20 @@
     <property name="recentsLimit" value="5" />
     <property name="dynamic.classpath" value="false" />
     <property name="FullScreen" value="false" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
+    <property name="OverrideImplement.combined" value="true" />
+    <property name="OverrideImplement.overriding.sorted" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="mongotrade" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.YDataEOD">
+  <component name="RunManager" selected="Application.MongoLayerRT">
     <configuration default="false" name="MFConfig" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -320,26 +300,6 @@
         </pattern>
       </extension>
       <option name="MAIN_CLASS_NAME" value="mongotrade.MFConfig" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <module name="mongotrade" />
-      <envs />
-      <method />
-    </configuration>
-    <configuration default="false" name="MongoLayerRT" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="mongotrade.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="MAIN_CLASS_NAME" value="mongotrade.MongoLayerRT" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -372,14 +332,14 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="YMUtils" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="IntradayChart" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="mongotrade.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="MAIN_CLASS_NAME" value="mongotrade.YMUtils" />
+      <option name="MAIN_CLASS_NAME" value="mongotrade.IntradayChart" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -392,14 +352,34 @@
       <envs />
       <method />
     </configuration>
-    <configuration default="false" name="YDataEOD" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration default="false" name="IntradayChart2" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
           <option name="PATTERN" value="mongotrade.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="MAIN_CLASS_NAME" value="mongotrade.YDataEOD" />
+      <option name="MAIN_CLASS_NAME" value="mongotrade.IntradayChart2" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="mongotrade" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="false" name="MongoLayerRT" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mongotrade.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="mongotrade.MongoLayerRT" />
       <option name="VM_PARAMETERS" />
       <option name="PROGRAM_PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -564,17 +544,17 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Application.MFConfig" />
-      <item index="1" class="java.lang.String" itemvalue="Application.MongoLayerRT" />
-      <item index="2" class="java.lang.String" itemvalue="Application.CandlestickChart" />
-      <item index="3" class="java.lang.String" itemvalue="Application.YMUtils" />
-      <item index="4" class="java.lang.String" itemvalue="Application.YDataEOD" />
+      <item index="1" class="java.lang.String" itemvalue="Application.CandlestickChart" />
+      <item index="2" class="java.lang.String" itemvalue="Application.IntradayChart" />
+      <item index="3" class="java.lang.String" itemvalue="Application.IntradayChart2" />
+      <item index="4" class="java.lang.String" itemvalue="Application.MongoLayerRT" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Application.YDataEOD" />
+        <item index="0" class="java.lang.String" itemvalue="Application.MongoLayerRT" />
         <item index="1" class="java.lang.String" itemvalue="Application.MFConfig" />
-        <item index="2" class="java.lang.String" itemvalue="Application.YMUtils" />
-        <item index="3" class="java.lang.String" itemvalue="Application.MongoLayerRT" />
+        <item index="2" class="java.lang.String" itemvalue="Application.IntradayChart" />
+        <item index="3" class="java.lang.String" itemvalue="Application.IntradayChart2" />
         <item index="4" class="java.lang.String" itemvalue="Application.CandlestickChart" />
       </list>
     </recent_temporary>
@@ -723,26 +703,32 @@
       <option name="project" value="LOCAL" />
       <updated>1434555824643</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Updated exports for GT and csv intraday data.">
+      <created>1434730009570</created>
+      <option name="number" value="00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1434730009570</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="25" y="9" width="1317" height="709" extended-state="0" />
+    <frame x="-7" y="18" width="1378" height="744" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38927335" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38662317" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.14878893" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3529412" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.53287196" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.40293637" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32952693" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2354813" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24803494" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.23520486" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24741448" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2492163" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -753,7 +739,7 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29757786" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29690048" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34414414" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -812,7 +798,8 @@
     <MESSAGE value="Working on charting the data series." />
     <MESSAGE value="Export files for GT automatically built." />
     <MESSAGE value="Added http call for Yahoo EOD data." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added http call for Yahoo EOD data." />
+    <MESSAGE value="Updated exports for GT and csv intraday data." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated exports for GT and csv intraday data." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -825,41 +812,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/mongotrade/Test.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mongotrade/QuoteBody.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="19" selection-start-line="0" selection-start-column="19" selection-end-line="0" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mongotrade/YMUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="58" selection-start-line="25" selection-start-column="58" selection-end-line="25" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mongotrade/QuoteHeader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="20" selection-start-line="22" selection-start-column="20" selection-end-line="22" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mongotrade/Test.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/mongotrade/QuoteBody.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1098,20 +1050,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mongotrade/CandlestickChart.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="4.02122">
-          <caret line="119" column="2" selection-start-line="119" selection-start-column="2" selection-end-line="119" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mongotrade/BarArray.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9938462">
-          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/mongotrade/NetFonds.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.39076924">
@@ -1119,79 +1057,124 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/mongotrade/TALibDemo.java">
+    <entry file="file://$PROJECT_DIR$/src/mongotrade/BarCache.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="53" column="43" selection-start-line="53" selection-start-column="8" selection-end-line="53" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
+          <caret line="97" column="77" selection-start-line="97" selection-start-column="77" selection-end-line="97" selection-end-column="77" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config.properties">
+    <entry file="file://$PROJECT_DIR$/src/mongotrade/TranslatingFormat.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.22442244">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="20" column="30" selection-start-line="20" selection-start-column="30" selection-end-line="20" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mongotrade/TranslatingDataset.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="32" column="4" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="4" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mongotrade/MFConsole.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33239436">
+        <state vertical-scroll-proportion="3.9521368">
           <caret line="141" column="28" selection-start-line="141" selection-start-column="24" selection-end-line="141" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mongotrade/BarCache.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="97" column="77" selection-start-line="97" selection-start-column="77" selection-end-line="97" selection-end-column="77" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mongotrade/YMUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="153" column="68" selection-start-line="153" selection-start-column="68" selection-end-line="153" selection-end-column="68" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/mongotrade/MongoLayerRT.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="358" column="16" selection-start-line="358" selection-start-column="16" selection-end-line="358" selection-end-column="16" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mongotrade/MFConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.8965516">
-          <caret line="58" column="66" selection-start-line="58" selection-start-column="66" selection-end-line="58" selection-end-column="66" />
-          <folding />
+        <state vertical-scroll-proportion="0.29444444">
+          <caret line="86" column="10" selection-start-line="86" selection-start-column="10" selection-end-line="86" selection-end-column="10" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mongotrade/YData2.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="111" column="35" selection-start-line="111" selection-start-column="8" selection-end-line="111" selection-end-column="35" />
-          <folding />
+          <caret line="129" column="18" selection-start-line="129" selection-start-column="18" selection-end-line="129" selection-end-column="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/mongotrade/YDataEOD.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.80991733">
-          <caret line="55" column="29" selection-start-line="55" selection-start-column="29" selection-end-line="55" selection-end-column="29" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="35" column="89" selection-start-line="35" selection-start-column="10" selection-end-line="35" selection-end-column="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mongotrade/TALibDemo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="54" column="118" selection-start-line="53" selection-start-column="8" selection-end-line="54" selection-end-column="118" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mongotrade/BarArray.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mongotrade/CandlestickChart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.8816568">
+          <caret line="159" column="115" selection-start-line="159" selection-start-column="115" selection-end-line="159" selection-end-column="115" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mongotrade/IntradayChart2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.2662723">
+          <caret line="58" column="59" selection-start-line="58" selection-start-column="59" selection-end-line="58" selection-end-column="59" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mongotrade/MarketTimeLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.11604095">
+          <caret line="4" column="0" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mongotrade/IntradayChart.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="46" selection-start-line="40" selection-start-column="46" selection-end-line="40" selection-end-column="46" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mongotrade/YMUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.137931">
+          <caret line="139" column="0" selection-start-line="139" selection-start-column="0" selection-end-line="139" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/mongotrade/MongoLayerRT.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6035503">
+          <caret line="345" column="14" selection-start-line="345" selection-start-column="14" selection-end-line="345" selection-end-column="14" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1237,7 +1220,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>1.7</last-edited>
+          <last-edited>1.8</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1254,7 +1237,6 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
-                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>

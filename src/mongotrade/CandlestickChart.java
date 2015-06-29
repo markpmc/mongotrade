@@ -1,156 +1,193 @@
 package mongotrade;
 
-/**
- * Created by mark.mcclellan on 5/28/2015.
- */
-
-import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.DateAxis;
+import org.jfree.chart.axis.DateTickMarkPosition;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.SegmentedTimeline;
+import org.jfree.chart.plot.CombinedDomainXYPlot;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.CandlestickRenderer;
-import org.jfree.data.xy.DefaultOHLCDataset;
-import org.jfree.data.xy.OHLCDataItem;
-import org.jfree.data.xy.OHLCDataset;
+import org.jfree.data.xy.*;
+import org.jfree.ui.RefineryUtilities;
 
-import javax.swing.*;
 import java.awt.*;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.List;
 
+import javax.swing.JFrame;
+import javax.swing.JScrollBar;
 
-public class CandlestickChart {
-    static MongoLayerRT ml = new MongoLayerRT();
-    static YMUtils ut = new YMUtils();
+public class CandlestickChart extends JFrame {
+    final int maxdays = 100;
 
-    public static void main(String args[]) {
+    private class Day {
+        public Date id;
+        public double open;
+        public double max;
+        public double min;
+        public double close;
+        public long vol;
+        public int signalType;
+        public String colour;
+        public double body_inf;
+        public double body_sup;
 
-        // 1. Download MSFT quotes from Yahoo Finance and store them as OHLCDataItem
-        List<OHLCDataItem> dataItems = new ArrayList<OHLCDataItem>();
-        String[] inDate;
-        double[] inOpen;
-        double[] inHigh;
-        double[] inLow;
-        double[] inClose;
-        double[] inVol;
-
-       /* try {
-            String strUrl = "http://ichart.yahoo.com/table.csv?s=^gspc&a=3&b=1&c=2014&d=3&e=15&f=2050&g=d";
-            URL url = new URL(strUrl);
-            BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+        public Day(String ids, double open, double max, double min, double close,long vol) throws ParseException {
             DateFormat df = new SimpleDateFormat("y-M-d");
+            this.id=df.parse(ids);
+            this.open=open;
+            this.max=max;
+            this.min=min;
+            this.close=close;
+            this.vol=vol;
+            if(close>=open){
+                this.colour="G";
+                this.body_inf=this.open;
+                this.body_sup=this.close;
+            } else {
+                this.colour="R";
+                this.body_inf=this.close;
+                this.body_sup=this.open;
+            }
+        }
+    }
 
-            String inputLine;
-            in.readLine();
-            while ((inputLine = in.readLine()) != null) {
-                StringTokenizer st = new StringTokenizer(inputLine, ",");
+    LinkedList<Day> list = new LinkedList<Day>();
 
-                Date date = df.parse(st.nextToken());
-                double open = Double.parseDouble(st.nextToken());
-                double high = Double.parseDouble(st.nextToken());
-                double low = Double.parseDouble(st.nextToken());
-                double close = Double.parseDouble(st.nextToken());
-                double volume = Double.parseDouble(st.nextToken());
-                double adjClose = Double.parseDouble(st.nextToken());
+    public CandlestickChart(String title) throws IOException, NumberFormatException, ParseException{
+        super(title + ": Chart + Buy/Sell signals");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-                // adjust data:
-                open = open * adjClose / close;
-                high = high * adjClose / close;
-                low = low * adjClose / close;
+        readData();
 
-                OHLCDataItem item = new OHLCDataItem(date, open, high, low, adjClose, volume);
+        //Shared date axis
+        DateAxis            domainAxis = new DateAxis("Date");
+        domainAxis.setTickMarkPosition( DateTickMarkPosition.START );
+        domainAxis.setTimeline( SegmentedTimeline.newMondayThroughFridayTimeline() );
+        domainAxis.setDateFormatOverride(new SimpleDateFormat("dd-MM-yy"));
+
+        //Build Candlestick Chart based on stock price OHLC
+        OHLCDataset         priceDataset  = getPriceDataSet(title);
+        NumberAxis          priceAxis     = new NumberAxis("Price");
+        CandlestickRenderer priceRenderer = new CandlestickRenderer();
+        XYPlot              pricePlot     = new XYPlot(priceDataset, domainAxis, priceAxis, priceRenderer);
+        priceRenderer.setSeriesPaint(0, Color.BLACK);
+        priceRenderer.setDrawVolume(true);
+        priceAxis.setAutoRangeIncludesZero(false);
+
+        OHLCDataset         signalDataset  = getSignalDataSet(title);
+        NumberAxis signalAxis     = new NumberAxis("Signal");
+        CandlestickRenderer signalRenderer = new CandlestickRenderer();
+        XYPlot              signalPlot     = new XYPlot(signalDataset, domainAxis, signalAxis, signalRenderer);
+        signalRenderer.setSeriesPaint(0, Color.BLACK);
+        signalRenderer.setDrawVolume(false);
+        signalAxis.setAutoRangeIncludesZero(true);
+
+        //Build Combined Plot
+        CombinedDomainXYPlot mainPlot = new CombinedDomainXYPlot(domainAxis);
+        mainPlot.add(pricePlot,4);
+        mainPlot.add(signalPlot,1);
+
+        JFreeChart chart = new JFreeChart(title, null, mainPlot, false);
+        ChartPanel chartPanel = new ChartPanel(chart);
+        chartPanel.setSize(600,600);
+        chartPanel.setVisible(true);
+        this.add(chartPanel);
+        this.add(getScrollBar(domainAxis), BorderLayout.SOUTH);
+        this.pack();
+        RefineryUtilities.centerFrameOnScreen(this);
+    }
+
+    private OHLCDataset getPriceDataSet(String symbol) {
+        ArrayList<OHLCDataItem> dataItems = new ArrayList<OHLCDataItem>();
+        int counter = 0;
+        ListIterator<Day> it = list.listIterator(list.size());
+        while(it.hasPrevious() /*&& counter<maxdays*/){
+            Day day = it.previous();
+            OHLCDataItem item = new OHLCDataItem(day.id, day.open, day.max, day.min, day.close, day.vol);
+            dataItems.add(item);
+            counter++;
+        }
+        OHLCDataItem[] data = dataItems.toArray(new OHLCDataItem[dataItems.size()]);
+        return new DefaultOHLCDataset(symbol, data);
+    }
+
+    private OHLCDataset getSignalDataSet(String symbol) {
+        ArrayList<OHLCDataItem> dataItems = new ArrayList<OHLCDataItem>();
+        int counter = 0;
+        ListIterator<Day> it = list.listIterator(list.size());
+        while(it.hasPrevious() && counter<maxdays){
+            Day day = it.previous();
+            if(day.signalType>0){
+                OHLCDataItem item = new OHLCDataItem(day.id, 0, day.signalType, 0, day.signalType, 0);
+                dataItems.add(item);
+            } else if(day.signalType<0){
+                OHLCDataItem item = new OHLCDataItem(day.id, 0, 0, day.signalType, day.signalType, 0);
                 dataItems.add(item);
             }
-            in.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+            counter++;
         }
-      */
-        BarArray ba = ml.getData("sso", 5, "M5");
-
-        inDate = ba.getDateArray();
-        inOpen = ba.getOpenArray();
-        inHigh = ba.getHighArray();
-        inLow = ba.getLowArray();
-        inClose = ba.getCloseArray();
-        inVol = ba.getVolArray();
-
-        for (int k = 0; k < inDate.length; k++){
-            System.out.println("date="+inDate[k]);
-           OHLCDataItem item = new OHLCDataItem(ut.dateFromString(inDate[k],"EST"), inOpen[k], inHigh[k], inLow[k], inClose[k], inVol[k]);
-            dataItems.add(item);
-        }
-
-        Collections.reverse(dataItems); // Data from Yahoo is from newest to oldest. Reverse so it is oldest to newest.
-        //Convert the list into an array
         OHLCDataItem[] data = dataItems.toArray(new OHLCDataItem[dataItems.size()]);
-        OHLCDataset dataset = new DefaultOHLCDataset("SP500", data);
+        return new DefaultOHLCDataset(symbol, data);
+    }
 
-        // 2. Create chart
-        JFreeChart chart = ChartFactory.createCandlestickChart("SP500", "Time", "Price", dataset, false);
+    private JScrollBar getScrollBar(final DateAxis domainAxis){
+        final double r1 = domainAxis.getLowerBound();
+        final double r2 = domainAxis.getUpperBound();
+        JScrollBar scrollBar = new JScrollBar(JScrollBar.HORIZONTAL, 0, 100, 0, 400);
+        scrollBar.addAdjustmentListener( new AdjustmentListener() {
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                double x = e.getValue() *60 *60 * 1000L;
+                domainAxis.setRange(r1+x, r2+x);
+            }
+        });
+        return scrollBar;
+    }
 
-        // 3. Set chart background
-        chart.setBackgroundPaint(Color.white);
+    private void readData() throws IOException, NumberFormatException, ParseException {
+        URL url = new URL("http://real-chart.finance.yahoo.com/table.csv?s=GOOG&d=5&e=23&f=2015&g=d&a=2&b=27&c=2010&ignore=.csv");
+        BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+        in.readLine();
+        String line;
+        try {
+            while ((line = in.readLine()) != null) {
+                StringTokenizer st = new StringTokenizer(line, ",");
+                String id = st.nextToken().trim();
+                String open = st.nextToken().trim();
+                String max = st.nextToken().trim();
+                String min = st.nextToken().trim();
+                st.nextToken().trim();
+                String vol = st.nextToken().trim();
+                String cload = st.nextToken().trim();
+                addRecord(id, Double.parseDouble(open), Double.parseDouble(max),
+                        Double.parseDouble(min), Double.parseDouble(cload), Long.parseLong(vol));
+            }
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {}
+        Collections.reverse(list);
 
-        // 4. Set a few custom plot features
-        XYPlot plot = (XYPlot) chart.getPlot();
-        plot.setBackgroundPaint(Color.WHITE); // light yellow = new Color(0xffffe0)
-        plot.setDomainGridlinesVisible(true);
-        plot.setDomainGridlinePaint(Color.lightGray);
-        plot.setRangeGridlinePaint(Color.lightGray);
-        ((NumberAxis) plot.getRangeAxis()).setAutoRangeIncludesZero(false);
+    }
 
+    private void addRecord(String id, double open,
+                           double max, double min, double close,
+                           long vol) throws ParseException {
+        list.add(new Day(id,open,max,min,close,vol));
+    }
 
-        DateAxis axis = new DateAxis();
-        long FIFTEEN_MINUTE_SEGMENT_SIZE = 15 * 60 * 1000;
-        SegmentedTimeline timeline = new SegmentedTimeline(FIFTEEN_MINUTE_SEGMENT_SIZE,26,70);
-        timeline.setStartTime(SegmentedTimeline.FIRST_MONDAY_AFTER_1900 +
-                (38 * timeline.getSegmentSize()));
-        timeline.setBaseTimeline(SegmentedTimeline.newMondayThroughFridayTimeline());
+    public static void main(String[] args) throws IOException, NumberFormatException, ParseException {
+        new CandlestickChart("Daily Chart").setVisible(true);
+    }
 
-        //help with segmented timeline
-/*        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, 1);
-        cal.set(Calendar.HOUR_OF_DAY, 9);
-        cal.set(Calendar.MINUTE, 30);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        Date from = cal.getTime();
-
-        cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-        cal.set(Calendar.HOUR_OF_DAY, 16);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND, 0);
-        Date to = cal.getTime();
-        timeline.addBaseTimelineExclusions(from.getTime(),to.getTime());
-*/
-
-        // 5. Skip week-ends on the date axis
-      //  ((DateAxis) plot.getDomainAxis()).setTimeline(SegmentedTimeline.newMondayThroughFridayTimeline());
-
-        // 6. No volume drawn
-        ((CandlestickRenderer) plot.getRenderer()).setDrawVolume(false);
-
-        // 7. Create and display full-screen JFrame
-        JFrame myFrame = new JFrame();
-        myFrame.setResizable(true);
-        myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        myFrame.add(new ChartPanel(chart), BorderLayout.CENTER);
-        Toolkit kit = Toolkit.getDefaultToolkit();
-        Insets insets = kit.getScreenInsets(myFrame.getGraphicsConfiguration());
-        Dimension screen = kit.getScreenSize();
-        myFrame.setSize((int) (screen.getWidth() - insets.left - insets.right), (int) (screen.getHeight() - insets.top - insets.bottom));
-        myFrame.setLocation((int) (insets.left), (int) (insets.top));
-        myFrame.setVisible(true);
-    } //end main
-}//end class
+} 

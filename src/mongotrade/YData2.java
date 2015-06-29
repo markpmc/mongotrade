@@ -21,6 +21,7 @@ public class YData2 {
 
     public static void main(String[] args) throws Exception {
         //String symbol = "^gspc";
+        //String symbol = "^gspc";
         String symbol = "EURUSD=X";
         http.fetchData(symbol);
 
@@ -126,9 +127,9 @@ public class YData2 {
                     //qheader.setTickerName(section[1].toString());
                 }
                 min_quote.setSource("Y");
-                min_quote.setTz("GMT-4:00");
+                //min_quote.setTz("GMT-4:00");
                 day_quote.setSource("Y");
-                day_quote.setTz("GMT-4:00");
+                //day_quote.setTz("GMT-4:00");
 
                 //end load header info
 
