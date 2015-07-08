@@ -121,10 +121,10 @@ public class YMUtils {
 
         DateFormat dfm = new SimpleDateFormat("yyyyMMddHHmm");
 
-        //dfm.setTimeZone(TimeZone.getTimeZone(zone));//Specify your timezone
+        dfm.setTimeZone(TimeZone.getTimeZone(zone));//Specify your timezone
         Date date = null;
 
-
+        
         try {
             date = (Date)dfm.parse(sdate);
         } catch (ParseException e) {

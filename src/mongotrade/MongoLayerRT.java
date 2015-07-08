@@ -34,9 +34,9 @@ public class MongoLayerRT {
 
 
         //collection = mgr.checkConnection("gspc");
-        //BarArray ba = mgr.getData("gspc", 10, "M15");
+        BarArray ba = mgr.getData("gspc", 5, "M5");
         //mgr.export2Txt("gspc","M15",ba);
-        mgr.GTexport("gspc",2,"5M");
+        //mgr.GTexport("gspc",2,"5M");
         //System.out.println(ba.getDateArray().toString());
         ///@@
         // Delete All documents before running example again
@@ -184,7 +184,7 @@ public class MongoLayerRT {
        // System.out.println("doc count=" + tcursor.count());
         while (cursor.hasNext()) {
             BasicDBObject obj = (BasicDBObject) cursor.next();
-            //System.out.println(cursor.curr());
+            System.out.println(cursor.curr());
 
             String sI = getDateFromId(obj.getString("_id"));
             quote.addDate(sI);

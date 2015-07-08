@@ -33,7 +33,7 @@ public class TALibDemo {
 
     public TALibDemo() {
         //initialize everything required for holding data
-        BarArray ba = ml.getData("dji", 10, "M5");
+        BarArray ba = ml.getData("gspc", 10, "M30");
 
         inDate = ba.getDateArray();
         inOpen = ba.getOpenArray();
@@ -55,10 +55,10 @@ public class TALibDemo {
             System.out.println(k+". "+inDate[k]+","+inOpen[k]+","+inHigh[k]+","+inLow[k]+","+inClose[k]+","+inVol[k]);
 
         //keeping it simple here...
-        //simpleMovingAverageCall();
+        simpleMovingAverageCall();
         //candleScan();
         //dojiScan();
-        williamsMFI();
+        //williamsMFI(ba);
     }
 
 
@@ -151,23 +151,60 @@ public class TALibDemo {
 
     }
 
-    private void williamsMFI(){
+    private int williamsMFI(BarArray bar){
+        int barColor = -1;
+
+        //1 = Green
+        //2 = Fade
+        //3 = Fake
+        //4 = Squat
+
+        //high,low and volume.
         //range      High-Low
         //divided by Volume
-        float[] mfi = new float[inVol.length];
+
+        inDate = bar.getDateArray();
+        inOpen = bar.getOpenArray();
+        inHigh = bar.getHighArray();
+        inLow = bar.getLowArray();
+        inClose = bar.getCloseArray();
+        inVol = bar.getVolArray();
+        double[] mfi = bar.getVolArray();
 
         for (int j = 0; j < inVol.length; j++) {
            mfi[j] = 0;
         }
 
+        double range=0;
         for (int i = 0; i < inVol.length; i++) {
-            //System.out.println("Vol=" + inVol[i]);
            if(inVol[i] != 0) {
-               mfi[i] = (float) (inHigh[i] - inLow[i]);
-               mfi[i] = (float) (mfi[i] / inVol[i]);
-               System.out.println("mfi=" + mfi[i] + "vol=" + inVol[i]);
+               range = (inHigh[i] - inLow[i]);
+               mfi[i] = range / inVol[i];
+               //System.out.println("item="+i+" mfi=" + mfi[i] + " vol=" + inVol[i]);
            }
         }
+
+        //Identify the MFI Bars
+        //index=1 to begin
+        for (int k=1; k < inVol.length;k++){
+            barColor = -1;
+            //Green if both mfi and vol increaed over previous day
+            if ((mfi[k-1] < mfi[k]) && (inVol[k-1] < inVol[k])){   // both increased Green
+              //  barColor = 1;
+            } else if ((mfi[k-1] > mfi[k]) && (inVol[k-1] > inVol[k])){  //both decreased Fade
+                barColor = 2;
+            } else if ((mfi[k-1] < mfi[k]) && (inVol[k-1] > inVol[k])){ // mfi up, vol down Fake
+                barColor = 3;
+            } else if ((mfi[k-1] > mfi[k]) && (inVol[k-1] < inVol[k])) { // mfi down, vol up Squat
+                barColor = 4;
+            }  // end MFI bars
+
+            if(barColor > 0){
+                System.out.println("item="+k+" Date "+ inDate[k] + " Color= " + barColor);
+            }
+        }
+
+        return barColor;
 
     }
     public static void main(String[] args){
