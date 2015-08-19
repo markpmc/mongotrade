@@ -34,7 +34,7 @@ public class MongoLayerRT {
 
 
         //collection = mgr.checkConnection("gspc");
-        BarArray ba = mgr.getData("gspc", 5, "M5");
+        BarArray ba = mgr.getData("gspc", 5, "5M");
         //mgr.export2Txt("gspc","M15",ba);
         //mgr.GTexport("gspc",2,"5M");
         //System.out.println(ba.getDateArray().toString());
@@ -129,11 +129,11 @@ public class MongoLayerRT {
 
     //get the requested data from the db
     //rollup the bars if required
-    public BarArray getData (String ticker,int bars,String type){
+    public BarArray getData (String ticker,int days,String type){
         BarArray quote = new BarArray();
         quote.init();
         String rollup = "";
-        bars = bars * -1;  //so we do date substraction later
+        days = days * -1;  //so we do date substraction later
 
         // type
         //D = daily,eod
@@ -162,14 +162,14 @@ public class MongoLayerRT {
         Date lteDate = null;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
         lteDate = new Date();
-        //String todate = dateFormat.format(lteDate);
+        String todate = dateFormat.format(lteDate);
 
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, bars);
+        cal.add(Calendar.DATE, days);
         gtDate = cal.getTime();
-        //String frDate = dateFormat.format(gtDate);
+        String frDate = dateFormat.format(gtDate);
 
-        //System.out.println("From=" + frDate + "::To=" + todate);
+        System.out.println("From=" + frDate + "::To=" + todate);
 
         BasicDBObject dateQueryObj = new BasicDBObject("Date",  new BasicDBObject("$gt", gtDate).append("$lte", lteDate));
         BasicDBObject sortPredicate = new BasicDBObject();
@@ -184,7 +184,7 @@ public class MongoLayerRT {
        // System.out.println("doc count=" + tcursor.count());
         while (cursor.hasNext()) {
             BasicDBObject obj = (BasicDBObject) cursor.next();
-            System.out.println(cursor.curr());
+           // System.out.println(cursor.curr());
 
             String sI = getDateFromId(obj.getString("_id"));
             quote.addDate(sI);

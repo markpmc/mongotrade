@@ -21,7 +21,7 @@ public class YData2 {
 
     public static void main(String[] args) throws Exception {
         //String symbol = "^gspc";
-        String symbol = "^gspc";
+        String symbol = "CLV15.NYM";
         //String symbol = "EURUSD=X";
         http.fetchData(symbol);
 

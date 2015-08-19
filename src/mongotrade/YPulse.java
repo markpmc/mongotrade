@@ -81,10 +81,16 @@ public class YPulse {
     //receives a String Buffer containing csv data from Yahoo.
     //loops thru processing the header and body.
     //replies upon QuoteBody and QuoteHeader as data structures
-    public double yahoo_pulse(String symbol) throws Exception {
+    public double yahoo_pulse(String symbol) {
 
         //retrieve the sysbol data
-        StringBuffer payload = http.fetchData(symbol);
+        StringBuffer payload = null;
+        try {
+            payload = http.fetchData(symbol);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return Double.parseDouble(payload.toString());
+
     } //end yahoo_pulse
 } // end class

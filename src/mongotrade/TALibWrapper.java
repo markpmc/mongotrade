@@ -9,7 +9,7 @@ import com.tictactec.ta.lib.RetCode;
  * Created by mark.mcclellan on 5/16/2015.
  */
 
-public class TALibDemo {
+public class TALibWrapper {
     MongoLayerRT ml = new MongoLayerRT();
     //you need to instantiate some basic variables
     private double input[];
@@ -31,9 +31,9 @@ public class TALibDemo {
     public  double[] inVol;
 
 
-    public TALibDemo() {
+    public TALibWrapper() {
         //initialize everything required for holding data
-        BarArray ba = ml.getData("gspc", 10, "M30");
+        BarArray ba = ml.getData("gspc", 4, "M5");
 
         inDate = ba.getDateArray();
         inOpen = ba.getOpenArray();
@@ -51,12 +51,19 @@ public class TALibDemo {
         outNbElement = new MInteger();
 
         //nice for debuggin
-        for (int k=0; k<inDate.length; k++)  // display data
-            System.out.println(k+". "+inDate[k]+","+inOpen[k]+","+inHigh[k]+","+inLow[k]+","+inClose[k]+","+inVol[k]);
+        //for (int k=0; k<inDate.length; k++)  // display data
+           // System.out.println(k+". "+inDate[k]+","+inOpen[k]+","+inHigh[k]+","+inLow[k]+","+inClose[k]+","+inVol[k]);
 
         //keeping it simple here...
-        simpleMovingAverageCall();
-        //candleScan();
+        double[] op = sMA(8,inClose);
+      // System.out.println("returned L="+op.length);
+/*        int diff = inDate.length - op.length;
+        System.out.println("diff=" + diff +" last ele="+op[op.length-1]);
+        for (int i = 0; i < op.length; i++) {
+            if (op[i] != 0)
+                System.out.println(inDate[diff+i]+" integer ["+i+"] is "+op[i]);
+        }
+*/        //candleScan();
         //dojiScan();
         //williamsMFI(ba);
     }
@@ -88,26 +95,56 @@ public class TALibDemo {
 
 
 
+    private double[] prepReturn(double[] in){
+        double[] back = in;
 
-    public void simpleMovingAverageCall() {
-        //you'll probably have to do this next call every time you add a value to your data array
-        //I haven't checked this in a live app yet
-        resetArrayValues();
+            for(int i=0;i<in.length;i++){
+                back[i] = (double) i;
+            }
+
+        return back;
+    }
+
+    public double[] sMA(int period, double[] inValue) {
 
         //The "lookback" is really your indicator's period minus one because it's expressed as an array index
         //At least that's true for movingAverage(...)
-        lookback = lib.movingAverageLookback(10, MAType.Sma);
+        lookback = lib.movingAverageLookback(period-1, MAType.Sma);
 
-        System.out.println("Simple moving average...");
-       // System.out.println("Lookback=" + lookback);
-       // System.out.println("outBegIdx.value=" + outBegIdx.value);
-       // System.out.println("outNbElement.value=" + outNbElement.value);
-        retCode = lib.movingAverage(0, inClose.length - 1, inClose, lookback + 1, MAType.Sma, outBegIdx, outNbElement, output);
+        retCode = lib.movingAverage(0, inValue.length - 1, inValue, lookback + 1, MAType.Sma, outBegIdx, outNbElement, output);
+
+        System.out.println("O=" + output.length + " RO=" + outNbElement.value + "BG=" + outBegIdx.value);
+
+        //prep the output array
+        double[] outTemp = new double[outNbElement.value];
 
         for (int i = 0; i < outNbElement.value; i++) {
-            if (output[i] != 0)
-                System.out.println(inDate[outBegIdx.value+i]+" integer ["+i+"] is "+output[i]);
+          //  System.out.println(inDate[i+outBegIdx.value] + " index [" + i + "] is " + output[i]);
+            outTemp[i] = output[i];
         }
+
+        System.out.println("returning");
+        return outTemp;
+    } //end sma
+
+    public double[] Stochastic(int period, double[] inValue) {
+
+        //The "lookback" is really your indicator's period minus one because it's expressed as an array index
+        //At least that's true for movingAverage(...)
+        //lookback = lib.movingAverageLookback(period-1, MAType.Sma);
+
+        retCode = lib.movingAverage(0, inValue.length - 1, inValue, lookback + 1, MAType.Sma, outBegIdx, outNbElement, output);
+        // System.out.println("O=" + output.length);
+
+        //prep the output array
+        double[] outTemp = new double[outNbElement.value];
+        for (int i = 0; i < outNbElement.value; i++) {
+            if (output[i] != 0)
+                // System.out.println(inDate[outBegIdx.value+i]+" index ["+i+"] is "+output[i]);
+                outTemp[i] = output[i];
+        }
+
+        return outTemp;
     }
 
     public void candleScan(){
@@ -209,7 +246,7 @@ public class TALibDemo {
     }
     public static void main(String[] args){
         //keeping this really simple...
-        TALibDemo demo = new TALibDemo();
+        TALibWrapper demo = new TALibWrapper();
     } //end main
 
 

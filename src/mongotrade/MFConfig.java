@@ -264,7 +264,7 @@ public class MFConfig {
                 if (!str.equals(ticker)) {
                     newSym.add(str);
                     newSrc.add(sources[ctr]);
-                    out.println("keeping " + valueOf(str));
+                    //out.println("keeping " + valueOf(str));
                     config.addSymbol(valueOf(str), sources[ctr]);
                 }
             } catch (Exception e1) {
@@ -273,11 +273,10 @@ public class MFConfig {
             ctr++;
         } //end for
 
-        //System.out.println(newSym.toString());
-        //System.out.println(newSrc.toString());
+        //force reload of symbols
+        symbols = null;
+        sources = null;
 
-        //we have the new arrays.
-        //lets update the config document
     } //end removeSymbol
 
     public void listSymbols() {
