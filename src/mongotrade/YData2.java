@@ -45,6 +45,9 @@ public class YData2 {
         //export the data as 5 & 30 min bars in CSV
         ml.CSVexport (ticker,20,"M5");
         ml.CSVexport(ticker, 20, "M30");
+        ml.GTexport(ticker,20,"M5");
+        ml.GTexport(ticker, 20, "M30");
+
 
     } //end fetchData
 
