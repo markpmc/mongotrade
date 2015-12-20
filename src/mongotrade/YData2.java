@@ -20,8 +20,8 @@ public class YData2 {
     static MongoLayerRT ml = new MongoLayerRT();
 
     public static void main(String[] args) throws Exception {
-        //String symbol = "^gspc";
-        String symbol = "CLV15.NYM";
+        String symbol = "^gspc";
+        //String symbol = "CLV15.NYM";
         //String symbol = "EURUSD=X";
         http.fetchData(symbol);
 
@@ -43,10 +43,10 @@ public class YData2 {
         http.process_yahoo_csv(result);
 
         //export the data as 5 & 30 min bars in CSV
-        ml.CSVexport (ticker,20,"M5");
-        ml.CSVexport(ticker, 20, "M30");
-        ml.GTexport(ticker,20,"M5");
-        ml.GTexport(ticker, 20, "M30");
+       // ml.CSVexport (ticker,20,"M5");
+       // ml.CSVexport(ticker, 20, "M30");
+       // ml.GTexport(ticker,20,"M5");
+       // ml.GTexport(ticker, 20, "M30");
 
 
     } //end fetchData
@@ -77,7 +77,7 @@ public class YData2 {
 
         while ((inputLine = in.readLine()) != null) {
             response.append(inputLine + "\n");
-            //System.out.println(inputLine);
+           // System.out.println(inputLine);
         }
         in.close();
 
@@ -130,9 +130,9 @@ public class YData2 {
                     //qheader.setTickerName(section[1].toString());
                 }
                 min_quote.setSource("Y");
-                min_quote.setTz("GMT-4:00");
+                min_quote.setTz("GMT-5:00");
                 day_quote.setSource("Y");
-                day_quote.setTz("GMT-4:00");
+                day_quote.setTz("GMT-5:00");
 
                 //end load header info
 

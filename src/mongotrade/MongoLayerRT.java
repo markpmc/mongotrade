@@ -13,6 +13,7 @@ import com.mongodb.*;
 import java.io.*;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,9 +35,17 @@ public class MongoLayerRT {
 
 
         //collection = mgr.checkConnection("gspc");
-        BarArray ba = mgr.getData("gspc", 5, "5M");
+       //BarArray ba = mgr.getData("gspc", 5, "D");
+
+
         //mgr.export2Txt("gspc","M15",ba);
-        //mgr.GTexport("gspc",2,"5M");
+        //mgr.GTexport("gspc",3,"M5");
+        try {
+            mgr.cleanData("gspc");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         //System.out.println(ba.getDateArray().toString());
         ///@@
         // Delete All documents before running example again
@@ -125,7 +134,6 @@ public class MongoLayerRT {
 
 
     } //end mongo_store bar
-
 
     //get the requested data from the db
     //rollup the bars if required
@@ -339,7 +347,7 @@ public class MongoLayerRT {
                 //format the date
                 f_date = utils.formatExportDate(date[i]);
                 try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fname, true)))) {
-                    out.println(open[i] + "\t" + high[i] + "\t" + low[i] + "\t" + close[i] + "\t" + vol[i] + "\t" + f_date + "\n");
+                    out.println(open[i] + "\t" + high[i] + "\t" + low[i] + "\t" + close[i] + "\t" + vol[i] + "\t" + f_date);
                 } catch (IOException e) {
                     //exception handling left as an exercise for the reader
                 } //end try
@@ -414,5 +422,71 @@ public class MongoLayerRT {
             }
         } //end for date.length
     } //end exportCSV
+
+
+    public void cleanData (String ticker) throws ParseException {
+        BarArray quote = new BarArray();
+        quote.init();
+        String rollup = "";
+
+        // type
+        //D = daily,eod
+        //M = 1 mintute bars
+        //M5 = 5 minute bars
+        //M15 = 15 minute bars
+        //M30 = 30 minute bars
+        //M60 = 60 minute bars
+
+       String type = "M";
+
+        //Do not reply on header. Goal is to update header if required.
+        MongoLayerRT mlrt = new MongoLayerRT();
+
+        try {
+            collection = mlrt.checkConnection(ticker);
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
+
+
+
+        //find the date range for the query
+        Date gtDate = null;
+        Date lteDate = null;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+       // lteDate = new Date();
+        lteDate = dateFormat.parse("2015-12-17 23:59:00");
+        String todate = dateFormat.format(lteDate);
+
+        Calendar cal = Calendar.getInstance();
+        //gtDate = cal.getTime();
+        gtDate = dateFormat.parse("2015-12-16 00:01:00");
+        String frDate = dateFormat.format(gtDate);
+
+        System.out.println("From=" + frDate + "::To=" + todate);
+
+        BasicDBObject dateQueryObj = new BasicDBObject("Date",  new BasicDBObject("$gt", gtDate).append("$lte", lteDate));
+        BasicDBObject sortPredicate = new BasicDBObject();
+        sortPredicate.put("Date", 1);
+
+        //let see what we have
+        dateQueryObj.put("Type", type);  //Add type to date range query
+        //System.out.println(dateQueryObj.toString());
+        // DBCursor cursor = collection.find(dateQueryObj).sort(sortPredicate);
+        DBCursor cursor = collection.find(dateQueryObj);
+
+        // System.out.println("doc count=" + tcursor.count());
+        while (cursor.hasNext()) {
+            BasicDBObject obj = (BasicDBObject) cursor.next();
+             System.out.println(cursor.curr());
+
+            collection.remove(obj);
+
+        } //end while
+
+
+
+    } //end cleanup
+
 
 } //end class

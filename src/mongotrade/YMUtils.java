@@ -48,7 +48,7 @@ public class YMUtils {
         //unixSeconds = 1400592600;
         Date date = new Date(unixSeconds*1000L); // *1000 is to convert seconds to milliseconds
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm"); // the format of your date
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT-4"));
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT-5:00"));
         String formattedDate = sdf.format(date);
        // System.out.println(formattedDate);
 		return formattedDate;

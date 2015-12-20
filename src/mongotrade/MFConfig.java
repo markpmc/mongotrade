@@ -295,4 +295,24 @@ public class MFConfig {
         //System.out.println(symbols.toString());
         //System.out.println(sources.toString());
     }
+
+    public void export() throws UnknownHostException {
+        MongoLayerRT ml = new MongoLayerRT();
+        //make sure the symbol list is loaded.
+        if(symbols == null) {
+            loadConfig();
+        }
+
+        int ctr = 0;
+
+        for (Object str : symbols) {
+            out.println(str);
+            ml.GTexport(str.toString(),7,"M5");
+            ml.GTexport(str.toString(), 15, "M30");
+            ml.GTexport(str.toString(),200,"D");
+            ctr++;
+        } //end for
+
+    } //end export
+
 } //end MFConfig

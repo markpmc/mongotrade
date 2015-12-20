@@ -52,8 +52,8 @@ public class YDataEOD {
         for(String s : sList){
             if(!s.equals("")){
                 //export the data as 5 & 30 min bars for GT
-                ml.GTexport(s,20,"M5");
-                ml.GTexport(s, 20, "M30");
+               // ml.GTexport(s,20,"M5");
+               // ml.GTexport(s, 20, "M30");
             } //end blank symbol
         } //end for symbol
     } //end fetchData
