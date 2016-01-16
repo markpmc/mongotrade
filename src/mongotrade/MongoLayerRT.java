@@ -416,7 +416,7 @@ public class MongoLayerRT {
             //format the date
             f_date = utils.formatExportDate(date[i]);
             try (PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(fname, true)))) {
-                out.println(symbol +","+open[i]+","+high[i]+","+low[i]+","+close[i]+","+vol[i]+","+f_date+"\n");
+                out.println(symbol +","+open[i]+","+high[i]+","+low[i]+","+close[i]+","+vol[i]+","+f_date);
             } catch (IOException e) {
                 //exception handling left as an exercise for the reader
             }

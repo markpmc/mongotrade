@@ -1,5 +1,10 @@
-gspc,1M,5
-gspc,5M,9
-gspc,15M,30
-gspc,30M,45
-gspc,D,300
+gspc,1M,5,tab
+gspc,5M,9,tab
+gspc,15M,30,tab
+gspc,30M,45,tab
+gspc,D,300,tab
+gspc,1M,5,csv
+gspc,5M,9,csv
+gspc,15M,30,csv
+gspc,30M,45,csv
+gspc,D,300,csv

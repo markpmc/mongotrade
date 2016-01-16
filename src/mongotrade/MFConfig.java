@@ -321,8 +321,12 @@ public class MFConfig {
                 String tf;  //timeframe
                 while ((line = reader.readLine()) != null) {
                     String[] parts = line.split(",");
-                    ml.GTexport(parts[0], parseInt(parts[2]), parts[1]);
-                }
+                    if(parts[3].equals("tab")) {
+                        ml.GTexport(parts[0], parseInt(parts[2]), parts[1]);
+                    }else if(parts[3].equals("csv")) {
+                        ml.CSVexport(parts[0], parseInt(parts[2]), parts[1]);
+                    } //end if
+                } //end while
                 reader.close();
             } catch (Exception e) {
                 System.err.format("Exception occurred trying to read '%s'.", exFile);
