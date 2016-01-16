@@ -27,6 +27,7 @@ public class MFConsole {
         boolean needHelp = false;
         Action action_input = Action.I;
         Scanner inputReader = new Scanner(System.in);
+
         MFConfig config = new MFConfig();
         //check for mongo config. first time run
         if (!config.checkConfig()) {

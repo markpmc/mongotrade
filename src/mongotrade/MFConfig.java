@@ -24,6 +24,7 @@ public class MFConfig {
     private static DB db = null;
     private static String database = "mf_config";
     public static String exPath="";
+    public static String exFile="";
 
     //symbol variables
     public static String[] symbols = null;
@@ -106,8 +107,9 @@ public class MFConfig {
         mHost = props.getProperty("host");
         mPort = parseInt(props.getProperty("port"));
         exPath = props.getProperty("expath");
+        exFile = props.getProperty("exfile");
 
-        //System.out.println("loaded host:" + mHost + ":" + mPort);
+        //System.out.println("loaded exfile:" + exFile);
         return true;
     }//end checkConfig
 
@@ -147,10 +149,17 @@ public class MFConfig {
         if (cursor2.count() == 0) {
             out.println("it's blank jim");
             //Nothing setup, put a few symbols in
-            config.addSymbol("^GSPC", "yahoo");
-            config.addSymbol("^DJI", "yahoo");
-            config.addSymbol("^IXIC", "yahoo");
-            config.addSymbol("^VIX", "yahoo");
+
+            BasicDBObject searchQ = new BasicDBObject();
+            searchQ.put("name", "default");
+
+            //add the ticker symbol to the Symbols list
+            DBObject modifiedObject = new BasicDBObject();
+            modifiedObject.put("$push", new BasicDBObject().append("Symbols", "^GSPC").append("Source", "yahoo"));
+            coll.update(searchQ, modifiedObject, true, false);
+
+            out.println("added default GSPC:yahoo");
+
         } //end if no symbols
 
         //load the config data
@@ -303,16 +312,37 @@ public class MFConfig {
             loadConfig();
         }
 
-        int ctr = 0;
+        if(!exFile.equals("")){
+            //process the user created export list
+            try {
+                BufferedReader reader = new BufferedReader(new FileReader(exFile));
+                String line;
+                String sym; //symbol
+                String tf;  //timeframe
+                while ((line = reader.readLine()) != null) {
+                    String[] parts = line.split(",");
+                    ml.GTexport(parts[0], parseInt(parts[2]), parts[1]);
+                }
+                reader.close();
+            } catch (Exception e) {
+                System.err.format("Exception occurred trying to read '%s'.", exFile);
+                e.printStackTrace();
+            }
 
-        for (Object str : symbols) {
-            out.println(str);
-            ml.GTexport(str.toString(),7,"M5");
-            ml.GTexport(str.toString(), 15, "M30");
-            ml.GTexport(str.toString(),200,"D");
-            ctr++;
-        } //end for
+        } else {
+            //user did not create export list.
+            //export all symbols with default settings
+            int ctr = 0;
 
+            for (Object str : symbols) {
+                out.println(str);
+                ml.GTexport(str.toString(),7,"M5");
+                ml.GTexport(str.toString(), 15, "M30");
+                ml.GTexport(str.toString(),200,"D");
+                ctr++;
+            } //end for
+
+        } //end if
     } //end export
 
 } //end MFConfig
